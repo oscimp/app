@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<drivers name="demo" version="1.0">
+	<driver name ="data16Complex_to_ram" >
+		<board_driver name="data1600" id = "0"
+			base_addr="0x43C00000" addr_size="0x00ff" />
+		<board_driver name="data1601" id = "1"
+			base_addr="0x43C10000" addr_size="0x00ff" />
+	</driver>
+	<driver name="fir16bits" >
+		<board_driver name="fir1600" id = "0" 
+			base_addr="0x43C20000" addr_size="0x00ff" />
+	</driver>
+	<driver name="add_const" >
+		<board_driver name="add00" id = "0" 
+			base_addr="0x43C30000" addr_size="0x00ff" />
+	</driver>
+</drivers>
+
