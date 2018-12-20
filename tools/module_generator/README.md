@@ -53,6 +53,12 @@ The following sample xml code is an example of file used by *module_generator*
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <drivers name="demo" version="1.0">
+	<options>
+		<option target="makefile" name="DONT_USE_LIB">1</option>
+		<option target="makefile" name="CFLAGS">-Iopt -g -Wall</option>
+		<option target="makefile" name="CFLAGS">-O4</option>
+		<option target="makefile" name="LDFLAGS">-lm -lfftw</option>
+	</options>
 	<driver name ="data16Complex_to_ram" >
 		<board_driver name="data1600" id = "0"
 			base_addr="0x43C00000" addr_size="0x00ff" />
@@ -84,6 +90,10 @@ where:
 	between the CPU and the FPGA
 	- *addr_size* is the length of the memory segment allocated for this driver
 	  instance.
+- option (optional): use to pass flags or informations:
+	- target: defines target file (currently only makefile);
+	- name: variable name, may be a compiler flag or an variable to add
+	- value: corresponding value.
 
 ### command line
 
