@@ -50,6 +50,8 @@ AppGenerator::~AppGenerator()
 int AppGenerator::generateMakefile(string outfilename, string installDir)
 {
 	string boardName;
+	string optName;
+	string optValue;
 
 	outfile.open(outfilename.c_str());
 	outfile << "BASE_NAME=" << rootName << endl;
@@ -58,6 +60,17 @@ int AppGenerator::generateMakefile(string outfilename, string installDir)
 		boardName = xmlhandler->getRoot()->Attribute("board");
 		outfile << "BOARD_NAME=" << boardName << endl;
 	}
+
+	std::list<tinyxml2::XMLElement *> options_list = xmlhandler->getNodes("option");
+	for (lelem it = options_list.begin(); it != options_list.end(); ++it) {
+		optName = (*it)->Attribute("name");
+		optValue = (*it)->GetText();
+		if (optName.find("FLAGS"))
+			outfile << optName << "+=" << optValue << endl;
+		else
+			outfile << optName << "=" << optValue << endl;
+	}
+
 	outfile << "include $(" << APP_DIR << ")/Makefile.inc" << endl;
 	outfile.close();
 	return 0;
