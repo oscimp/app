@@ -136,7 +136,7 @@ list<XMLElement*> XmlWrapper::getNodes(string nodename, XMLElement *current)
 		return listElem;
 	}
 	/* nodes not found: needs to do a deep search */
-	XMLElement *node = xmlRoot->FirstChildElement();
+	XMLElement *node = current->FirstChildElement();
 	if (!node)
 		return listElem;
 
