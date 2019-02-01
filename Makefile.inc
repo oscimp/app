@@ -44,7 +44,8 @@ clean:
 	rm -f *.c~ *.h~ Makefile~
 
 install: all
-	mkdir -p $(APP_INSTALL_DIR)/{bin,bitstreams}
+	mkdir -p $(APP_INSTALL_DIR)/bin
+	mkdir -p $(APP_INSTALL_DIR)/bitstreams
 	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh $(APP_INSTALL_DIR)/bin
 
 uninstall:
