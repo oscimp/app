@@ -13,16 +13,22 @@
 class DTSGenerator
 {
 	public:
-		DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper);
-		DTSGenerator(std::string xmlFilename, std::string driverFilename);
+		DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper,
+			XmlWrapper &xmlFPGAWrapper);
+		DTSGenerator(std::string xmlFilename, std::string driverFilename,
+			std::string FPGAIPFilename);
 		~DTSGenerator();
 		int generateDTS(std::string outfilename, std::string authorName);
 	private:
 		XmlWrapper _xmlhandler;
 		XmlWrapper _driverhandler;
+		XmlWrapper _FPGAIPhandler;
 		std::ofstream outfile;
 		std::string rootName;
 		std::list<tinyxml2::XMLElement *> drvList;
+		std::list<tinyxml2::XMLElement *> ipList;
 		int generateNodes();
+		int generateNode(std::string drvName, tinyxml2::XMLElement *child);
+		int generateNewNodes();
 };
 #endif /* DTSGENERATOR_HPP */

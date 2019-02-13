@@ -48,7 +48,54 @@ to install *module_generator* in */somewhere* directory.
 ## Usage
 
 ### XML file
+The following sample xml code is an example of file used by *module_generator*
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<project name="demo" version="1.0">
+	<options>
+		<option target="makefile" name="DONT_USE_LIB">1</option>
+		<option target="makefile" name="CFLAGS">-Iopt -g -Wall</option>
+		<option target="makefile" name="CFLAGS">-O4</option>
+		<option target="makefile" name="LDFLAGS">-lm -lfftw</option>
+	</options>
+	<ips>
+		<ip name ="dataComplex_to_ram" >
+			<instance name="data1600" id = "0"
+				base_addr="0x43C00000" addr_size="0x00ff" />
+			<instance name="data1601" id = "1"
+				base_addr="0x43C10000" addr_size="0x00ff" />
+		</ip>
+		<ip name="firReal" >
+			<instance name="fir1600" id = "0"
+				base_addr="0x43C20000" addr_size="0x00ff" />
+		</ip>
+		<ip name="add_const" >
+			<instance name="add00" id = "0"
+				base_addr="0x43C30000" addr_size="0x00ff" />
+		</ip>
+	</ips>
+</project>
+```
 
+where:
+- *name* attribute for *project* node is the name of the project (used for
+   binary application name, bitstream and devicetree base name;
+- *name* attribute for *ip* node is the name of an IP used by this application.
+   To produce the devicetree and shell script, *module_generator* uses this
+   information to, though *$OSCIMP_DIGITAL_IP*/ip.xml, know which driver must be
+   used and finally, though *$OSCIMP_DIGITAL_DRIVER*/driver.xml, informations about the driver;
+- *instance* refers to an instance of parent *ip* node,
+	- *name* is used to create, at runtime, a /dev/xxx pseudo file
+	- *base_addr* is the start address of the memory segment shared
+	between the CPU and the FPGA
+	- *addr_size* is the length of the memory segment allocated for this driver
+	  instance.
+- option (optional): use to pass flags or informations:
+	- target: defines target file (currently only makefile);
+	- name: variable name, may be a compiler flag or an variable to add
+	- value: corresponding value.
+
+#### Previous XML structure
 The following sample xml code is an example of file used by *module_generator*
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -94,7 +141,6 @@ where:
 	- target: defines target file (currently only makefile);
 	- name: variable name, may be a compiler flag or an variable to add
 	- value: corresponding value.
-
 ### command line
 
 to generate application files you need :
@@ -134,3 +180,15 @@ where:
 - *name* is the name used in xml to refer to this entry;
 - *plat* is, in nodts mode, the name of the platform data used to provide
    information through the board driver and core driver.
+
+## Add an IP
+*module_generator* uses *$OSCIMP_DIGITAL_IP/ip.xml* to obtain relationship
+between an IP and a driver. When a new IP is added, an entry in *ip.xml* must be
+added such as:
+```xml
+<ip name="nco_counter"
+	driver="nco_counter" />
+```
+where:
+- *name* is the IP name;
+- *driver* is the entry in *$OSCIMP_DIGITAL_DRIVER/driver.xml*

@@ -70,6 +70,14 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
+	string fpga_ip_dir;
+	try {
+		fpga_ip_dir = string(getenv(FPGA_IP_DIR.c_str()));
+	} catch (exception exec) {
+		printError("Erreur: env var " + FPGA_IP_DIR + " not defined");
+		return EXIT_FAILURE;
+	}
+
 	XmlWrapper xmlWrapper;
 	try {
 		xmlWrapper.loadFile(xmlFile);
@@ -77,17 +85,24 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	XmlWrapper libWrapper;
+	XmlWrapper xmlDriverWrapper;
 	try {
-		libWrapper.loadFile(fpga_driver_dir+"/driver.xml");
+		xmlDriverWrapper.loadFile(fpga_driver_dir+"/driver.xml");
 	} catch (exception exec) {
 		return EXIT_FAILURE;
 	}
 
-	DTSGenerator dtsGen(xmlWrapper, libWrapper);
-	DriverGenerator drvGen(&xmlWrapper, &libWrapper, false);
+	XmlWrapper xmlFPGAIPWrapper;
+	try {
+		xmlFPGAIPWrapper.loadFile(fpga_ip_dir+"/ip.xml");
+	} catch (exception exec) {
+		return EXIT_FAILURE;
+	}
 
-	AppGenerator appGen(&xmlWrapper, &libWrapper, legacy);
+	DTSGenerator dtsGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper);
+	DriverGenerator drvGen(&xmlWrapper, &xmlDriverWrapper, false);
+
+	AppGenerator appGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper, legacy);
 
 	string rootName(xmlWrapper.getRoot()->Attribute("name"));
 	string appDir("app");

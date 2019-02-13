@@ -16,21 +16,98 @@ using namespace std;
 
 typedef list<XMLElement*>::iterator lelem;
 
-DTSGenerator::DTSGenerator(string xmlFilename, string driverFilename):
-	_xmlhandler(xmlFilename), _driverhandler(driverFilename)
+DTSGenerator::DTSGenerator(string xmlFilename, string driverFilename, string FPGAIPFilename):
+	_xmlhandler(xmlFilename), _driverhandler(driverFilename), _FPGAIPhandler(FPGAIPFilename)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
+	ipList = _xmlhandler.getNodes("ip");
 }
 
-DTSGenerator::DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper):
-	_xmlhandler(xmlWrapper), _driverhandler(driverWrapper)
+DTSGenerator::DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper, XmlWrapper &FPGAIPWrapper):
+	_xmlhandler(xmlWrapper), _driverhandler(driverWrapper), _FPGAIPhandler(FPGAIPWrapper)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
+	ipList = _xmlhandler.getNodes("ip");
 }
 
 DTSGenerator::~DTSGenerator(){}
+
+int DTSGenerator::generateNode(std::string drvName, XMLElement *child)
+{
+	XMLElement *elem;
+	string driverName, childName, base_addr, addr_size, cut_addr;
+	string compatible;
+
+	elem = _driverhandler.getNodeWithAttributeValue("driver", "filename", drvName);
+	if (elem == NULL) {
+		printError("No driver with filename : " + drvName);
+		return EXIT_FAILURE;
+	}
+	try {
+		driverName = XmlWrapper::getAttributeForElement(elem, "name");
+		compatible = XmlWrapper::getAttributeForElement(elem, "compatible");
+	} catch (const std::exception &e) {
+		printError("attribute problem with driver " + drvName
+					+ " : " + e.what());
+		return EXIT_FAILURE;
+	}
+
+	for (int i=0; child; child = child->NextSiblingElement(), i++) {
+		try {
+			childName = XmlWrapper::getAttributeForElement(child, "name");
+			base_addr = XmlWrapper::getAttributeForElement(child, "base_addr");
+			addr_size = XmlWrapper::getAttributeForElement(child, "addr_size");
+		} catch (const std::exception &e) {
+			printError("attribute problem for " + drvName +
+						" subnode : " +e.what());
+			return EXIT_FAILURE;
+		}
+		cut_addr = base_addr.substr(2);
+		outfile << "\t\t\t" << childName << ": " << childName << "@" << cut_addr << "{" << std::endl;
+		outfile << "\t\t\t\tcompatible = \"" << compatible << "\";" << std::endl;
+		outfile << "\t\t\t\treg = <" << base_addr << " "<< addr_size << ">;" << std::endl;
+		outfile << "\t\t\t};" << std::endl;
+		outfile << "" << std::endl;
+	}
+	return 0;
+}
+
+int DTSGenerator::generateNewNodes()
+{
+	XMLElement *ip, *drv, *child, *elem;
+	string driverName, childName, base_addr, addr_size, cut_addr;
+	string compatible, drvName, ipName;
+
+	for (lelem it = ipList.begin (); it != ipList.end (); ++it){
+		ip = *it;
+		/* search for ip name */
+		try {
+			ipName = XmlWrapper::getAttributeForElement(ip, "name");
+		} catch (const exception &e) {
+			printError("Node has no ip name attribute.");
+			return EXIT_FAILURE;
+		}
+		/* search for corresponding node in fpga_ip/driver.xml */
+		elem = _FPGAIPhandler.getNodeWithAttributeValue("ip", "name", ipName);
+		if (elem == NULL) {
+			printError("No IP with name : " + ipName);
+			return EXIT_FAILURE;
+		}
+		try {
+			drvName = XmlWrapper::getAttributeForElement(elem, "driver");
+		} catch (const std::exception &e) {
+			printError("attribute problem with IP " + drvName
+						+ " : " + e.what());
+			return EXIT_FAILURE;
+		}
+
+		child = ip->FirstChildElement("instance");
+		generateNode(drvName, child);
+	}
+	return 0;
+}
 
 int DTSGenerator::generateNodes()
 {
@@ -48,37 +125,7 @@ int DTSGenerator::generateNodes()
 		}
 
 		child = drv->FirstChildElement("board_driver");
-		elem = _driverhandler.getNodeWithAttributeValue("driver", "filename", drvName);
-		if (elem == NULL) {
-			printError("No driver with filename : " + drvName);
-			return EXIT_FAILURE;
-		}
-		try {
-			driverName = XmlWrapper::getAttributeForElement(elem, "name");
-			compatible = XmlWrapper::getAttributeForElement(elem, "compatible");
-		} catch (const std::exception &e) {
-			printError("attribute problem with driver " + drvName
-						+ " : " + e.what());
-			return EXIT_FAILURE;
-		}
-
-		for (int i=0; child; child = child->NextSiblingElement(), i++) {
-			try {
-				childName = XmlWrapper::getAttributeForElement(child, "name");
-				base_addr = XmlWrapper::getAttributeForElement(child, "base_addr");
-				addr_size = XmlWrapper::getAttributeForElement(child, "addr_size");
-			} catch (const std::exception &e) {
-				printError("attribute problem for " + drvName +
-							" subnode : " +e.what());
-				return EXIT_FAILURE;
-			}
-			cut_addr = base_addr.substr(2);
-			outfile << "\t\t\t" << childName << ": " << childName << "@" << cut_addr << "{" << std::endl;
-			outfile << "\t\t\t\tcompatible = \"" << compatible << "\";" << std::endl;
-			outfile << "\t\t\t\treg = <" << base_addr << " "<< addr_size << ">;" << std::endl;
-			outfile << "\t\t\t};" << std::endl;
-			outfile << "" << std::endl;
-		}
+		generateNode(drvName, child);
 	}
 	return 0;
 }
@@ -107,6 +154,7 @@ int DTSGenerator::generateDTS(string outfilename, string authorName)
 	outfile << "" << std::endl;
 
 	ret = generateNodes();
+	ret |= generateNewNodes();
 	if (ret != 0) {
 		ret = -1;
 		goto end;

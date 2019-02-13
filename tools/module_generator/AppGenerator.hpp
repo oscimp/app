@@ -13,19 +13,22 @@
 class AppGenerator
 {
 	public:
-		AppGenerator(XmlWrapper *xmlWrapper, XmlWrapper *driverWrapper, bool legacy);
-		AppGenerator(std::string xmlFilename, std::string driverFilename, bool legacy);
+		AppGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper,
+			XmlWrapper &xmlFPGAWrapper, bool legacy);
+		AppGenerator(std::string xmlFilename, std::string driverFilename,
+			std::string FPGAIPFilename, bool legacy);
 		~AppGenerator();
 		int generateMakefile(std::string outfilename, std::string installDir);
 		int generateScript(std::string outfilename, std::string driverPath, bool use_dts);
 	private:
-		XmlWrapper *xmlhandler;
-		XmlWrapper *driverhandler;
+		XmlWrapper _xmlhandler;
+		XmlWrapper _driverhandler;
+		XmlWrapper _FPGAIPhandler;
 		std::ofstream outfile;
 		std::string rootName;
-		bool suppressXml;
 		bool _legacy;
 		std::list<tinyxml2::XMLElement *> drvList;
+		std::list<tinyxml2::XMLElement *> ipList;
 		std::list<tinyxml2::XMLElement *> boardDrv;
 };
 #endif /* APPGENERATOR_HPP */

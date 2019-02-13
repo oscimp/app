@@ -10,5 +10,6 @@
 
 #define INSTALL_DIR "OSCIMP_DIGITAL_NFS"
 const std::string DRIVER_DIR = "OSCIMP_DIGITAL_DRIVER";
+const std::string FPGA_IP_DIR = "OSCIMP_DIGITAL_IP";
 #define APP_DIR "OSCIMP_DIGITAL_APP"
 #endif /*__COMMON_H*/
