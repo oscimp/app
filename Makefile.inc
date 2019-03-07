@@ -1,6 +1,7 @@
 #define all stuffs needed to compile
 OUTPUT_DIR=$(BR_DIR)/output
 HOST_DIR=$(OUTPUT_DIR)/host
+STAGING_DIR=$(OUTPUT_DIR)/staging
 
 COMPILER_NAME=arm-linux-
 DTC=$(HOST_DIR)/bin/dtc
@@ -14,6 +15,8 @@ ifndef DONT_USE_LIB
 LDFLAGS+=-L$(OSCIMP_DIGITAL_LIB) -loscimp_fpga
 CFLAGS+=-I$(OSCIMP_DIGITAL_LIB)
 endif
+
+LDFLAGS+=-L$(STAGING_DIR)/usr/lib
 
 CFLAGS+=-I$(OSCIMP_DIGITAL_DRIVER)
 
