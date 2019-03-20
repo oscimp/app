@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	string fpga_driver_dir;
 	try {
 		fpga_driver_dir = string(getenv(DRIVER_DIR.c_str()));
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		printError("Erreur: env var " + DRIVER_DIR + " not defined");
 		return EXIT_FAILURE;
 	}
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	string fpga_ip_dir;
 	try {
 		fpga_ip_dir = string(getenv(FPGA_IP_DIR.c_str()));
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		printError("Erreur: env var " + FPGA_IP_DIR + " not defined");
 		return EXIT_FAILURE;
 	}
@@ -81,21 +81,21 @@ int main(int argc, char **argv)
 	XmlWrapper xmlWrapper;
 	try {
 		xmlWrapper.loadFile(xmlFile);
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		return EXIT_FAILURE;
 	}
 
 	XmlWrapper xmlDriverWrapper;
 	try {
 		xmlDriverWrapper.loadFile(fpga_driver_dir+"/driver.xml");
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		return EXIT_FAILURE;
 	}
 
 	XmlWrapper xmlFPGAIPWrapper;
 	try {
 		xmlFPGAIPWrapper.loadFile(fpga_ip_dir+"/ip.xml");
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		return EXIT_FAILURE;
 	}
 

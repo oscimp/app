@@ -16,7 +16,7 @@ ConfigHandler::ConfigHandler(string xmlFilename)
 {
 	try {
 		xmlhandler = new XmlWrapper(xmlFilename, true);
-	} catch (exception exec) {
+	} catch (exception &exec) {
 		xmlhandler = new XmlWrapper();
 		xmlhandler->setFileName(xmlFilename);
 		xmlhandler->setRoot("MGConfig");
