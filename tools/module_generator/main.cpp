@@ -139,6 +139,8 @@ int main(int argc, char **argv)
 	if (0 != appGen.generateMakefile(appDir+"/Makefile", cfhandl.getNfsInstallDir()))
 		goto end;
 	if (0 != appGen.generateScript(appDir+"/"+rootName+"_us.sh", "../../modules", use_dts))
+		goto end;
+	printInfo("Generation successfully");
 end:
 	std::cout << "end" << std::endl;
 }
