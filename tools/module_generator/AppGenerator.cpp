@@ -90,7 +90,9 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 			outfile << ".bin\" > /sys/class/fpga_manager/fpga0/firmware "<< endl;
 		} else {
 			outfile << "DTB_DIR=/sys/kernel/config/device-tree/overlays/fpga"<< endl;
-			outfile << "rmdir $DTB_DIR"<< endl;
+			outfile << "if [ -d $DTB_DIR ]; then" << endl;
+			outfile << "\trmdir $DTB_DIR"<< endl;
+			outfile << "fi" << endl;
 			outfile << "mkdir $DTB_DIR"<< endl;
 			outfile << "cat " << rootName << ".dtbo > $DTB_DIR/dtbo"<< endl;
 
