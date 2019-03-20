@@ -12,8 +12,13 @@ APP_INSTALL_DIR:=$(OSCIMP_DIGITAL_NFS)/$(BOARD_NAME)/$(BASE_NAME)
 CFLAGS+=-g -W -Wall
 
 ifndef DONT_USE_LIB
-LDFLAGS+=-L$(OSCIMP_DIGITAL_LIB) -loscimp_fpga
 CFLAGS+=-I$(OSCIMP_DIGITAL_LIB)
+LDFLAGS+=-L$(OSCIMP_DIGITAL_LIB)
+ifndef USE_STATIC_LIB
+LDFLAGS+=-loscimp_fpga
+else
+LDFLAGS+=-loscimp_fpga_static
+endif
 endif
 
 LDFLAGS+=-L$(STAGING_DIR)/usr/lib
