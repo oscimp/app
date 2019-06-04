@@ -78,6 +78,14 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
+	string board_name;
+	try {
+		board_name = string(getenv(BOARD_NAME.c_str()));
+	} catch (exception &exec) {
+		printError("Erreur: env var " + BOARD_NAME + " not defined");
+		return EXIT_FAILURE;
+	}
+
 	XmlWrapper xmlWrapper;
 	try {
 		xmlWrapper.loadFile(xmlFile);
@@ -99,10 +107,10 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	DTSGenerator dtsGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper);
+	DTSGenerator dtsGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper, board_name);
 	DriverGenerator drvGen(&xmlWrapper, &xmlDriverWrapper, false);
 
-	AppGenerator appGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper, legacy);
+	AppGenerator appGen(xmlWrapper, xmlDriverWrapper, xmlFPGAIPWrapper, legacy, board_name);
 
 	string rootName(xmlWrapper.getRoot()->Attribute("name"));
 	string appDir("app");
@@ -124,7 +132,7 @@ int main(int argc, char **argv)
 	if (use_dts == true) {
 		char dtsName[128];
 		sprintf(dtsName, "%s.dts", rootName.c_str());
-		if (0 != dtsGen.generateDTS(appDir + "/"+dtsName, cfhandl.getAuthor()))
+		if (0 != dtsGen.generateDTS(appDir + "/"+dtsName))
 			goto end;
 	} else {
 		char driverName[128];

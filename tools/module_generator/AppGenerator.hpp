@@ -14,9 +14,9 @@ class AppGenerator
 {
 	public:
 		AppGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper,
-			XmlWrapper &xmlFPGAWrapper, bool legacy);
+			XmlWrapper &xmlFPGAWrapper, bool legacy, std::string board_name);
 		AppGenerator(std::string xmlFilename, std::string driverFilename,
-			std::string FPGAIPFilename, bool legacy);
+			std::string FPGAIPFilename, bool legacy, std::string board_name);
 		~AppGenerator();
 		int generateMakefile(std::string outfilename, std::string installDir);
 		int generateScript(std::string outfilename, std::string driverPath, bool use_dts);
@@ -27,6 +27,7 @@ class AppGenerator
 		std::ofstream outfile;
 		std::string rootName;
 		bool _legacy;
+		std::string _board_name;
 		std::list<tinyxml2::XMLElement *> drvList;
 		std::list<tinyxml2::XMLElement *> ipList;
 		std::list<tinyxml2::XMLElement *> boardDrv;

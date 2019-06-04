@@ -16,16 +16,20 @@ using namespace std;
 
 typedef list<XMLElement*>::iterator lelem;
 
-DTSGenerator::DTSGenerator(string xmlFilename, string driverFilename, string FPGAIPFilename):
-	_xmlhandler(xmlFilename), _driverhandler(driverFilename), _FPGAIPhandler(FPGAIPFilename)
+DTSGenerator::DTSGenerator(string xmlFilename, string driverFilename, string FPGAIPFilename,
+	string board_name):
+	_xmlhandler(xmlFilename), _driverhandler(driverFilename), _FPGAIPhandler(FPGAIPFilename),
+	_board_name(board_name)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
 	ipList = _xmlhandler.getNodes("ip");
 }
 
-DTSGenerator::DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper, XmlWrapper &FPGAIPWrapper):
-	_xmlhandler(xmlWrapper), _driverhandler(driverWrapper), _FPGAIPhandler(FPGAIPWrapper)
+DTSGenerator::DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper, XmlWrapper &FPGAIPWrapper,
+	string board_name):
+	_xmlhandler(xmlWrapper), _driverhandler(driverWrapper), _FPGAIPhandler(FPGAIPWrapper),
+	_board_name(board_name)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
@@ -76,7 +80,7 @@ int DTSGenerator::generateNode(std::string drvName, XMLElement *child)
 
 int DTSGenerator::generateNewNodes()
 {
-	XMLElement *ip, *drv, *child, *elem;
+	XMLElement *ip, /**drv,*/ *child, *elem;
 	string driverName, childName, base_addr, addr_size, cut_addr;
 	string compatible, drvName, ipName;
 
@@ -111,7 +115,7 @@ int DTSGenerator::generateNewNodes()
 
 int DTSGenerator::generateNodes()
 {
-	XMLElement *drv, *child, *elem;
+	XMLElement *drv, *child/*, *elem*/;
 	string driverName, childName, base_addr, addr_size, cut_addr;
 	string compatible, drvName;
 
@@ -130,9 +134,14 @@ int DTSGenerator::generateNodes()
 	return 0;
 }
 
-int DTSGenerator::generateDTS(string outfilename, string authorName)
+int DTSGenerator::generateDTS(string outfilename)
 {
 	int ret = 0;
+	string target_phandle;
+	bool is_pluto = false;
+
+	if (!_board_name.compare("plutosdr"))
+		is_pluto = true;
 
 	outfile.open(outfilename.c_str());
 
@@ -143,15 +152,17 @@ int DTSGenerator::generateDTS(string outfilename, string authorName)
 	outfile << "\tcompatible = \"xlnx,zynq-7000\";" << std::endl;
 	outfile << "" << std::endl;
     outfile << "\tfragment0 {" << std::endl;
-    outfile << "\t\ttarget = <&fpga_full>;" << std::endl;
+    outfile << "\t\ttarget = <&" << ((is_pluto) ? "fpga_axi" : "fpga_full") << ">;" << std::endl;
     outfile << "\t\t#address-cells = <1>;" << std::endl;
     outfile << "\t\t#size-cells = <1>;" << std::endl;
     outfile << "\t\t__overlay__ {" << std::endl;
     outfile << "\t\t\t#address-cells = <1>;" << std::endl;
     outfile << "\t\t\t#size-cells = <1>;" << std::endl;
 	outfile << "" << std::endl;
-	outfile << "\t\t\tfirmware-name = \"" << rootName << "_wrapper.bit.bin\";" << std::endl;
-	outfile << "" << std::endl;
+	if (!is_pluto) {
+		outfile << "\t\t\tfirmware-name = \"" << rootName << "_wrapper.bit.bin\";" << std::endl;
+		outfile << "" << std::endl;
+	}
 
 	ret = generateNodes();
 	ret |= generateNewNodes();

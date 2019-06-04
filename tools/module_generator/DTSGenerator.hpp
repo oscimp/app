@@ -14,15 +14,16 @@ class DTSGenerator
 {
 	public:
 		DTSGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper,
-			XmlWrapper &xmlFPGAWrapper);
+			XmlWrapper &xmlFPGAWrapper, std::string board_name);
 		DTSGenerator(std::string xmlFilename, std::string driverFilename,
-			std::string FPGAIPFilename);
+			std::string FPGAIPFilename, std::string board_name);
 		~DTSGenerator();
-		int generateDTS(std::string outfilename, std::string authorName);
+		int generateDTS(std::string outfilename);
 	private:
 		XmlWrapper _xmlhandler;
 		XmlWrapper _driverhandler;
 		XmlWrapper _FPGAIPhandler;
+		std::string _board_name;
 		std::ofstream outfile;
 		std::string rootName;
 		std::list<tinyxml2::XMLElement *> drvList;

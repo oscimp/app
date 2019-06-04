@@ -18,9 +18,9 @@ using namespace std;
 typedef list<XMLElement*>::iterator lelem;
 
 AppGenerator::AppGenerator(string xmlFilename, string driverFilename,
-							string FPGAIPFilename, bool legacy):
+							string FPGAIPFilename, bool legacy, string board_name):
 				_xmlhandler(xmlFilename), _driverhandler(driverFilename),
-				_FPGAIPhandler(FPGAIPFilename)
+				_FPGAIPhandler(FPGAIPFilename), _board_name(board_name)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
@@ -29,9 +29,9 @@ AppGenerator::AppGenerator(string xmlFilename, string driverFilename,
 }
 
 AppGenerator::AppGenerator(XmlWrapper &xmlWrapper, XmlWrapper &driverWrapper,
-							XmlWrapper &xmlFPGAIPWrapper, bool legacy):
+							XmlWrapper &xmlFPGAIPWrapper, bool legacy, string board_name):
 				_xmlhandler(xmlWrapper), _driverhandler(driverWrapper),
-				_FPGAIPhandler(xmlFPGAIPWrapper)
+				_FPGAIPhandler(xmlFPGAIPWrapper), _board_name(board_name)
 {
 	rootName = _xmlhandler.getRoot()->Attribute("name");
 	drvList = _xmlhandler.getNodes("driver");
@@ -44,7 +44,6 @@ AppGenerator::~AppGenerator() {}
 
 int AppGenerator::generateMakefile(string outfilename, string installDir)
 {
-	string boardName;
 	string optName;
 	string optValue;
 
@@ -60,6 +59,22 @@ int AppGenerator::generateMakefile(string outfilename, string installDir)
 			outfile << optName << "+=" << optValue << endl;
 		else
 			outfile << optName << "=" << optValue << endl;
+	}
+
+	XMLElement *elem;
+	string ipName;
+	string drvName;
+	outfile << "CORE_MODULES_LIST = \\" << endl;
+	for (lelem it = ipList.begin (); it != ipList.end (); ++it){
+		ipName = XmlWrapper::getAttributeForElement(*it, "name");
+		elem = _FPGAIPhandler.getNodeWithAttributeValue("ip", "name", ipName);
+		drvName = XmlWrapper::getAttributeForElement(elem, "driver");
+		elem = _driverhandler.getNodeWithAttributeValue("driver", "filename", drvName);
+		outfile << "\t${" << DRIVER_DIR << "}/" << elem->Attribute("filename") << "_core/";
+		outfile << elem->Attribute("filename") << "_core.ko";
+		if (std::next(it) != ipList.end())
+			outfile << " \\";
+		outfile << endl;
 	}
 
 	/* include app/Makefile.inc */
@@ -83,8 +98,10 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 	if (_legacy) {
 		outfile << "cat ../bitstreams/" << bitName << " > /dev/xdevcfg" << endl;
 	} else {
-		outfile << "mkdir -p /lib/firmware" << std::endl;
-		outfile << "cp ../bitstreams/" << bitName << ".bin /lib/firmware" << endl;
+		if (_board_name.compare("plutosdr") != 0)
+			outfile << "mkdir -p /lib/firmware" << std::endl;
+			outfile << "cp ../bitstreams/" << bitName << ".bin /lib/firmware" << endl;
+		}
 		if (!use_dts) {
 			outfile << "echo \"" <<  bitName;
 			outfile << ".bin\" > /sys/class/fpga_manager/fpga0/firmware "<< endl;
@@ -95,7 +112,6 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 			outfile << "fi" << endl;
 			outfile << "mkdir $DTB_DIR"<< endl;
 			outfile << "cat " << rootName << ".dtbo > $DTB_DIR/dtbo"<< endl;
-
 		}
 	}
 	outfile << "" << std::endl;
