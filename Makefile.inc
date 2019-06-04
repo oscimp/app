@@ -56,6 +56,14 @@ install: all
 	mkdir -p $(APP_INSTALL_DIR)/bitstreams
 	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh $(APP_INSTALL_DIR)/bin
 
+install_ssh: all
+	mkdir -p /tmp/$(BASE_NAME)/bin
+	mkdir -p /tmp/$(BASE_NAME)/modules
+	cp $(CORE_MODULES_LIST) /tmp/$(BASE_NAME)/modules/
+	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh /tmp/$(BASE_NAME)/bin
+	sed -i 's/^CORE_MODULES_DIR=.*/CORE_MODULES_DIR=\.\.\/modules/g' /tmp/$(BASE_NAME)/bin/$(EXEC_NAME).sh
+	scp -r /tmp/$(BASE_NAME) root@$(IP):/tmp/
+
 uninstall:
 	rm -rf $(APP_INSTALL_DIR)
 
