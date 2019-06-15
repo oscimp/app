@@ -98,7 +98,7 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 	if (_legacy) {
 		outfile << "cat ../bitstreams/" << bitName << " > /dev/xdevcfg" << endl;
 	} else {
-		if (_board_name.compare("plutosdr") != 0)
+		if (_board_name.compare("plutosdr") != 0) {
 			outfile << "mkdir -p /lib/firmware" << std::endl;
 			outfile << "cp ../bitstreams/" << bitName << ".bin /lib/firmware" << endl;
 		}
