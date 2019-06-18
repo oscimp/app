@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="plutosdr_template" version="1.0">
+	<options>
+		<option target="makefile" name="USE_STATIC_LIB">1</option>
+		<option target="makefile" name="LDFLAGS">-liio</option>
+	</options>
+
+	<ips>
+		<!-- ... -->
+	</ips>
+</project>
