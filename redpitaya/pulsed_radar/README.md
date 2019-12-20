@@ -24,6 +24,8 @@ period) is more than enough to collect the sensor response. Observing the fast e
 is achieved by generating on the fast DAC outputs an analog copy of the I and Q coefficients best viewed
 on a radiofrequency grade oscilloscope.
 
+In this demonstration, the antenna (common port of the switch) is replaced with a SAW Components (Dresden, Germany) 2.45 GHz sensor connected through 20-dB attenuators. 
+
 REMEBER to load the channels of the oscilloscope connected to the DAC output to 50 ohm, while the trigger
 signal must be loaded on a high impedance (1 Mohm) input.
 
@@ -34,6 +36,11 @@ signal must be loaded on a high impedance (1 Mohm) input.
 In case a custom kernel is used, our hardware setup requires compiling the AD5624R kernel module support.
 
 ## Results
+
+All parameters (pulse duration, pulse repetition rate, averaging, rejecting noise as defined by excessive signal fluctuations at delays known not to hold echoes from the sensor) are defined from the userland applocation as described in the
+<a href="app">application</a> directory.
+
+<img src="https://github.com/oscimp/app/blob/master/redpitaya/pulsed_radar/figures/Screenshot_2019-12-19_1_174815.png" width=300>
 
 ## References
 
