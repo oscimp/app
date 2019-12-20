@@ -12,10 +12,13 @@ strain sensors for example.
 
 ## Hardware setup
 
-A VCO has been selected as signal source to easily demonstate the local oscillator stability sensitivity
-of the measurement. The VCO feeds a fast radiofrequency switch triggered by the Redpitaya to generate the
-emitted pulse. A fraction of the VCO power drives a I/Q detector fed on the other hand by the amplified received
-signal. The I/Q detector output is amplified by a baseband VGA (Variable Gain Amplified) whose output feeds
+A VCO (MiniCircuits ZX95-2536C-S+) has been selected as signal source to easily demonstate the local oscillator 
+stability sensitivity of the measurement. The VCO feeds a fast radiofrequency switch (Hittite HMC284A) triggered 
+by the Redpitaya to generate the emitted pulse. A fraction of the VCO power (MiniCircuits ZX10-2-42-S+ splitted) 
+drives a I/Q detector (Analog Devices ADL5380 evaluation board) fed on the other hand by the amplified (2x MiniCircuits
+ZX60-272LN-S+) received
+signal. The I/Q detector output is amplified by a baseband VGA (Variable Gain Amplified, Analog Devices AD8335 Evaluation
+Board) whose output feeds
 the Redpitaya ADC. Since a typical SAW sensor echo lasts a few tens of nanoseconds, the 125 MS/s (8-ns sampling
 period) is more than enough to collect the sensor response. Observing the fast evolution of the echo phase
 is achieved by generating on the fast DAC outputs an analog copy of the I and Q coefficients best viewed
@@ -23,6 +26,8 @@ on a radiofrequency grade oscilloscope.
 
 REMEBER to load the channels of the oscilloscope connected to the DAC output to 50 ohm, while the trigger
 signal must be loaded on a high impedance (1 Mohm) input.
+
+<img src="https://github.com/oscimp/app/blob/master/redpitaya/pulsed_radar/figures/DSC_0356.JPG" width=300>
 
 ## Usage
 
