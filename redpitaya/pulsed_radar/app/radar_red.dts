@@ -1,0 +1,97 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_full>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			firmware-name = "radar_red_wrapper.bit.bin";
+
+			checkValidRafale: checkValidRafale@43C10000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43C10000 0xffff>;
+			};
+
+			dataDirect_to_ram: dataDirect_to_ram@43C50000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C50000 0xffff>;
+			};
+
+			dataExtract_to_ram: dataExtract_to_ram@43C70000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C70000 0xffff>;
+			};
+
+			extractData: extractData@43C60000{
+				compatible = "ggm,edfb";
+				reg = <0x43C60000 0xffff>;
+			};
+
+			genRadar: genRadar@43C00000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43C00000 0xffff>;
+			};
+
+			meanVector: meanVector@43C30000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43C30000 0xffff>;
+			};
+
+			switchCheck: switchCheck@43C20000{
+				compatible = "ggm,switch";
+				reg = <0x43C20000 0xffff>;
+			};
+
+			switchMean: switchMean@43C40000{
+				compatible = "ggm,switch";
+				reg = <0x43C40000 0xffff>;
+			};
+
+			switchDAC: switchDAC@43C80000{
+				compatible = "ggm,switch";
+				reg = <0x43C80000 0xffff>;
+			};
+
+		};
+	};
+
+    fragment@1 {
+        target-path = "/";
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <1>;
+            reg_ad5624_vref: vref-reg {
+                compatible = "regulator-fixed";
+                //reg = <1>;
+                regulator-name = "vref-reg";
+                regulator-min-microvolt = <3300000>;
+                regulator-max-microvolt = <3300000>;
+            };
+        };
+    };
+	fragment@2 {
+	    target = <&spi1>;
+
+	    __overlay__ {
+	    	#address-cells = <1>;
+	    	#size-cells = <0>;
+			num_cs = <1>;
+	        status = "okay";
+
+	        ad5624: ad5624@0 {
+	            compatible = "ad5664r5";
+				spi-max-frequency = <1000000>;
+	            reg = <0>;
+				spi-cpol;
+				vcc-supply = <&reg_ad5624_vref>;
+	        };
+	    };
+	};
+};
