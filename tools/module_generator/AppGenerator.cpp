@@ -76,6 +76,15 @@ int AppGenerator::generateMakefile(string outfilename, string installDir)
 			outfile << " \\";
 		outfile << endl;
 	}
+	for (lelem it = drvList.begin (); it != drvList.end (); ++it){
+		drvName = XmlWrapper::getAttributeForElement(*it, "name");
+		elem = _driverhandler.getNodeWithAttributeValue("driver", "filename", drvName);
+		outfile << "\t${" << DRIVER_DIR << "}/" << elem->Attribute("filename") << "_core/";
+		outfile << elem->Attribute("filename") << "_core.ko";
+		if (std::next(it) != drvList.end())
+			outfile << " \\";
+		outfile << endl;
+	}
 
 	/* include app/Makefile.inc */
 	outfile << "include $(" << APP_DIR << ")/Makefile.inc" << endl;
