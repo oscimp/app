@@ -56,6 +56,14 @@ install: all
 	mkdir -p $(APP_INSTALL_DIR)/bitstreams
 	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh $(SUPP_FILE) $(APP_INSTALL_DIR)/bin
 
+install_webserver:
+	mkdir -p $(APP_INSTALL_DIR)/bin
+	cp -f $(BASE_NAME)_webserver.py $(APP_INSTALL_DIR)/bin
+
+install_webserver_defconfig:
+	mkdir -p $(APP_INSTALL_DIR)/bin
+	cp -f $(BASE_NAME)_defconfig.py $(APP_INSTALL_DIR)/bin
+
 install_ssh: all
 	mkdir -p /tmp/$(BASE_NAME)/bin
 	mkdir -p /tmp/$(BASE_NAME)/modules
