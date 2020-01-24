@@ -1,0 +1,30 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_axi>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			pulse: pulse@43c10000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43c10000 0xffff>;
+			};
+
+			data00: data00@43C30000 {
+				compatible = "ggm,dataDmaDirect";
+				reg = <0x43C30000 0xffff>,
+					<0x43C20000 0xffff>;
+				interrupt-parent = <&intc>;
+				interrupts = <0 58 1>;
+			};
+
+		};
+	};
+};
