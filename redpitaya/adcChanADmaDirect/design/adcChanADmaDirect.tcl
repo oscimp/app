@@ -23,8 +23,7 @@ add_ip_and_conf dataReal_dma_direct dataReal {
 
 connect_intf converters dataA_out dataReal data1_in
 connect_intf converters clk_o dataReal m00_axis_aclk
-#connect_intf rst_converters_100M peripheral_reset dataReal m00_axis_reset
-connect_proc dataReal s00_axi s00_axi_aclk s00_axi_reset 0x1000
+connect_proc dataReal s00_axi 0x1000
 
 # axi dma
 add_ip_and_conf axi_dma axi_dma_x {
@@ -36,7 +35,6 @@ add_ip_and_conf axi_dma axi_dma_x {
 connect_intf dataReal m00_axis axi_dma_x s_axis_s2mm
 connect_intf axi_dma_x s2mm_introut ps7 irq_f2p
 
-#connect_proc axi_dma_x S_AXI_LITE S_AXI_LITE_ACLK AXI_RESETN 0x3000
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
 	-config {Master "/ps7/M_AXI_GP0" Clk "Auto" } \
     [get_bd_intf_pins axi_dma_x/s_axi_lite]
