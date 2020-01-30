@@ -26,6 +26,7 @@ class DTSGenerator
 		std::string _board_name;
 		std::ofstream outfile;
 		std::string rootName;
+		std::string _tool;
 		std::list<tinyxml2::XMLElement *> drvList;
 		std::list<tinyxml2::XMLElement *> ipList;
 		int generateNodes();
