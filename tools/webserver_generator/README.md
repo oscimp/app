@@ -15,6 +15,7 @@ Test it
 
 `make install_python_package` or `make install_python_package_ssh IP=XXX.XXX.XXX.XXX`
 
-* build the webserver app, need myproject.xml (same as module generator)
+* build the webserver application by providing the XML configuration file myproject.xml: this configuration file is the 
+same than the one used to configure [module generator](https://github.com/oscimp/app/tree/master/tools/module_generator).
 
 `./webserver_generator myproject.xml`
