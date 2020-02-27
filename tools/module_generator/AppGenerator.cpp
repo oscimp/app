@@ -99,7 +99,20 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 	string ipName;
 	XMLElement *elem;
 	outfile.open(outfilename.c_str());
-	string bitName(rootName + "_wrapper.bit");
+	string bitName(rootName);
+	string tool("vivado");
+	try {
+		tool = _xmlhandler.getAttributeForElement(_xmlhandler.getRoot(), "tool", true);
+	} catch (const std::invalid_argument &e) { // by default use "vivado"
+	}
+
+	if (tool.compare("quartus") == 0) {
+		bitName += ".rbf";
+	} else {
+		bitName += "_wrapper.bit";
+		if (!_legacy)
+			bitName += ".bin";
+	}
 
 	outfile << "CORE_MODULES_DIR=" << driverPath << endl;
 	outfile << "" << std::endl;
@@ -109,11 +122,11 @@ int AppGenerator::generateScript(string outfilename, string driverPath, bool use
 	} else {
 		if (_board_name.compare("plutosdr") != 0) {
 			outfile << "mkdir -p /lib/firmware" << std::endl;
-			outfile << "cp ../bitstreams/" << bitName << ".bin /lib/firmware" << endl;
+			outfile << "cp ../bitstreams/" << bitName << " /lib/firmware" << endl;
 		}
 		if (!use_dts) {
 			outfile << "echo \"" <<  bitName;
-			outfile << ".bin\" > /sys/class/fpga_manager/fpga0/firmware "<< endl;
+			outfile << "\" > /sys/class/fpga_manager/fpga0/firmware "<< endl;
 		} else {
 			outfile << "DTB_DIR=/sys/kernel/config/device-tree/overlays/fpga"<< endl;
 			outfile << "if [ -d $DTB_DIR ]; then" << endl;
