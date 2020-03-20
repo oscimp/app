@@ -1,0 +1,146 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_full>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			firmware-name = "demod_pid_only1_adc_ram_dac2_wrapper.bit.bin";
+
+			adc1_offset: adc1_offset@43C00000{
+				compatible = "ggm,add_const";
+				reg = <0x43C00000 0xffff>;
+			};
+
+			adc2_offset: adc2_offset@43C30000{
+				compatible = "ggm,add_const";
+				reg = <0x43C30000 0xffff>;
+			};
+
+			dac1_offset: dac1_offset@43CE0000{
+				compatible = "ggm,add_const";
+				reg = <0x43CE0000 0xffff>;
+			};
+
+			dac2_offset: dac2_offset@43C60000{
+				compatible = "ggm,add_const";
+				reg = <0x43C60000 0xffff>;
+			};
+
+			data_fast: data_fast@43CB0000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43CB0000 0xffff>;
+			};
+
+			data_slow: data_slow@43CC0000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43CC0000 0xffff>;
+			};
+
+			data_proc: data_proc@43D00000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43D00000 0xffff>;
+			};
+
+			data_adc2: data_adc2@43C90000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C90000 0xffff>;
+			};
+
+			swichIQ: swichIQ@43CF0000{
+				compatible = "ggm,switch";
+				reg = <0x43CF0000 0xffff>;
+			};
+
+			shift_dyn_I: shift_dyn_I@43C20000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43C20000 0xffff>;
+			};
+
+			shift_dyn_Q: shift_dyn_Q@43CA0000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43CA0000 0xffff>;
+			};
+
+			shift_dyn_2: shift_dyn_2@43D20000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43D20000 0xffff>;
+			};
+
+			proc_out: proc_out@43C10000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43C10000 0xffff>;
+			};
+
+			pid1: pid1@43CD0000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43CD0000 0xffff>;
+			};
+
+			demod1_nco: demod1_nco@43C40000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C40000 0xffff>;
+			};
+
+			demod2_nco: demod2_nco@43C50000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C50000 0xffff>;
+			};
+
+			fir_I: fir_I@43C70000{
+				compatible = "ggm,fir";
+				reg = <0x43C70000 0xffff>;
+			};
+
+			fir_Q: fir_Q@43C80000{
+				compatible = "ggm,fir";
+				reg = <0x43C80000 0xffff>;
+			};
+
+			fir_2: fir_2@43D10000{
+				compatible = "ggm,fir";
+				reg = <0x43D10000 0xffff>;
+			};
+
+		};
+	};
+
+	fragment1 {
+		target-path = "/";
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg_mcp: vref-reg@0 {
+				compatible ="regulator-fixed";
+				reg = <1>;
+				regulator-name = "vref-reg";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+			};
+		};
+	};
+
+	fragment2 {
+		target = <&spi1>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			status = "okay";
+			num-cs = <1>;
+			is-decoded-cs = <0>;
+			mcp: mcp@0 {
+				compatible = "microchip,mcp3551";
+				vref-supply = <&reg_mcp>;
+				spi-max-frequency = <1000000>;
+				reg = <0>;
+			};
+		};
+	};
+};

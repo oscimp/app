@@ -1,0 +1,11 @@
+set_property IOSTANDARD LVCMOS18 [get_ports {pwm_o}]
+set_property SLEW FAST [get_ports {pwm_o}]
+set_property DRIVE 12 [get_ports {pwm_o}]
+set_property IOB TRUE [get_ports {pwm_o}]
+set_property PACKAGE_PIN T10 [get_ports {pwm_o}]
+
+set_property IOSTANDARD LVCMOS18 [get_ports {pwm_1}]
+set_property SLEW FAST [get_ports {pwm_1}]
+set_property DRIVE 12 [get_ports {pwm_1}]
+set_property IOB TRUE [get_ports {pwm_1}]
+set_property PACKAGE_PIN T11 [get_ports {pwm_1}]

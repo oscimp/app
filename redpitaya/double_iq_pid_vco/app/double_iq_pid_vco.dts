@@ -1,0 +1,119 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_full>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			firmware-name = "double_iq_pid_vco_wrapper.bit.bin";
+
+			adc1_offset: adc1_offset@43C50000{
+				compatible = "ggm,add_const";
+				reg = <0x43C50000 0xffff>;
+			};
+
+			adc2_offset: adc2_offset@43C40000{
+				compatible = "ggm,add_const";
+				reg = <0x43C40000 0xffff>;
+			};
+
+			dds1_f0: dds1_f0@43D90000{
+				compatible = "ggm,add_const";
+				reg = <0x43D90000 0xffff>;
+			};
+
+			dds2_f0: dds2_f0@43DB0000{
+				compatible = "ggm,add_const";
+				reg = <0x43DB0000 0xffff>;
+			};
+
+			dds1_offset: dds1_offset@43E00000{
+				compatible = "ggm,add_const";
+				reg = <0x43E00000 0xffff>;
+			};
+
+			dds2_offset: dds2_offset@43E10000{
+				compatible = "ggm,add_const";
+				reg = <0x43E10000 0xffff>;
+			};
+
+			data_fast: data_fast@43C00000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C00000 0xffff>;
+			};
+
+			data_slow: data_slow@43CB0000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43CB0000 0xffff>;
+			};
+
+			shift1_dyn: shift1_dyn@43C20000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43C20000 0xffff>;
+			};
+
+			shift2_dyn: shift2_dyn@43CA0000{
+				compatible = "ggm,fpgagen";
+				reg = <0x43CA0000 0xffff>;
+			};
+
+			dds_range: dds_range@43D20000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43D20000 0xffff>;
+			};
+
+			dds_ampl: dds_ampl@43D30000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43D30000 0xffff>;
+			};
+
+			pid1: pid1@43C30000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43C30000 0xffff>;
+			};
+
+			pid2: pid2@43D40000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43D40000 0xffff>;
+			};
+
+			demod2_nco: demod2_nco@43C70000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C70000 0xffff>;
+			};
+
+			demod1_nco: demod1_nco@43C60000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C60000 0xffff>;
+			};
+
+			dds2_nco: dds2_nco@43DD0000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43DD0000 0xffff>;
+			};
+
+			dds1_nco: dds1_nco@43DA0000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43DA0000 0xffff>;
+			};
+
+			demod1_fir: demod1_fir@43C80000{
+				compatible = "ggm,fir";
+				reg = <0x43C80000 0xffff>;
+			};
+
+			demod2_fir: demod2_fir@43C90000{
+				compatible = "ggm,fir";
+				reg = <0x43C90000 0xffff>;
+			};
+
+		};
+	};
+};

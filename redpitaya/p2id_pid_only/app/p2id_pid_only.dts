@@ -1,0 +1,79 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_full>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			firmware-name = "p2id_pid_only_wrapper.bit.bin";
+
+			adc1_offset: adc1_offset@43C10000{
+				compatible = "ggm,add_const";
+				reg = <0x43C10000 0xffff>;
+			};
+
+			dac1_offset: dac1_offset@43D20000{
+				compatible = "ggm,add_const";
+				reg = <0x43D20000 0xffff>;
+			};
+
+			pid2_offset: pid2_offset@43C20000{
+				compatible = "ggm,add_const";
+				reg = <0x43C20000 0xffff>;
+			};
+
+			mod_input_ampl: mod_input_ampl@43C80000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43C80000 0xffff>;
+			};
+
+			mod_out_pid2_ampl: mod_out_pid2_ampl@43CC0000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43CC0000 0xffff>;
+			};
+
+			piid1: piid1@43C00000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43C00000 0xffff>;
+			};
+
+			pid1: pid1@43C60000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43C60000 0xffff>;
+			};
+
+			pid2: pid2@43CE0000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43CE0000 0xffff>;
+			};
+
+			mod_input_nco: mod_input_nco@43C70000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C70000 0xffff>;
+			};
+
+			mod_out_pid2_nco: mod_out_pid2_nco@43DC0000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43DC0000 0xffff>;
+			};
+
+			data_fast: data_fast@43C90000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C90000 0xffff>;
+			};
+
+			data_slow: data_slow@43CA0000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43CA0000 0xffff>;
+			};
+
+		};
+	};
+};
