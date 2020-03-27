@@ -6,4 +6,4 @@ Design used to phase lock the frequency of a laser on the resonnant frequency of
 
 ## RF scheme of the design  
 
-![p2id_vco_amp_mod_pid_only](20191211_110821-90.jpg)
+![p2id_vco_amp_mod_pid_only](IMG_20191007_114959.jpg)
