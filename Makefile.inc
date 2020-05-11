@@ -25,11 +25,14 @@ LDFLAGS+=-L$(STAGING_DIR)/usr/lib
 
 CFLAGS+=-I$(OSCIMP_DIGITAL_DRIVER)
 
-EXEC_NAME=$(BASE_NAME)_us
 SRC=$(wildcard *.c)
 OBJS=$(SRC:.c=.o)
 DTS_NAME=$(wildcard *.dts)
 DTBO_NAME=$(DTS_NAME:.dts=.dtbo)
+
+ifneq ($(SRC),)
+EXEC_NAME=$(BASE_NAME)_us
+endif
 
 all: $(EXEC_NAME) $(DTBO_NAME)
 
@@ -54,7 +57,7 @@ clean:
 install: all
 	mkdir -p $(APP_INSTALL_DIR)/bin
 	mkdir -p $(APP_INSTALL_DIR)/bitstreams
-	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh $(SUPP_FILE) $(APP_INSTALL_DIR)/bin
+	cp -f $(DTBO_NAME) $(EXEC_NAME) $(BASE_NAME)_us.sh $(SUPP_FILE) $(APP_INSTALL_DIR)/bin
 
 install_webserver:
 	mkdir -p $(APP_INSTALL_DIR)/bin
