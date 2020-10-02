@@ -140,12 +140,12 @@ with open('%s_webserver.py'%name, 'a') as f:
 			if 'f0' not in elem[1]:
 				f.write('\t\tself.sd_%s = gui.Slider(vals.%s, -8192, 8191, 1, width="60%%", margin="10px")\n'%(elem[1],elem[1]))
 			else:
-				f.write('\t\tself.sd_%s = gui.Slider(vals.%s, 0, 62500000, 1, width="60%%", margin="10px")\n'%(elem[1],elem[1]))
+				f.write('\t\tself.sd_%s = gui.Slider(vals.%s, 0, samp_freq/2, 1, width="60%%", margin="10px")\n'%(elem[1],elem[1]))
 			f.write('\t\tself.sd_%s.set_oninput_listener(self.sd_%s_changed)\n'%(elem[1], elem[1]))
 			if 'f0' not in elem[1]:
 				f.write('\t\tself.sb_%s = gui.SpinBox(vals.%s, -8192, 8191, 1, width="20%%", margin="10px")\n'%(elem[1],elem[1]))
 			else:
-				f.write('\t\tself.sb_%s = gui.SpinBox(vals.%s, 0, 62500000, 0.02, width="20%%", margin="10px")\n'%(elem[1],elem[1]))
+				f.write('\t\tself.sb_%s = gui.SpinBox(vals.%s, 0, samp_freq/2, 0.02, width="20%%", margin="10px")\n'%(elem[1],elem[1]))
 			f.write('\t\tself.sb_%s.set_on_change_listener(self.sb_%s_changed)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_%s_changed(self.sd_%s, self.sd_%s.get_value())\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.hbox_%s.append(self.lb_%s)\n'%(elem[1], elem[1]))
@@ -274,9 +274,9 @@ with open('%s_webserver.py'%name, 'a') as f:
 		if elem[0] == 'nco_counter':
 			f.write('\t\tself.hbox_%s = gui.HBox(margin="10px")\n'%elem[1])
 			f.write('\t\tself.lb_%s = gui.Label("/dev/%s", width="20%%", margin="10px")\n'%(elem[1], elem[1]))
-			f.write('\t\tself.sd_pinc_%s = gui.Slider(vals.pinc_%s, 0, 62500000, 1, width="25%%", margin="10px")\n'%(elem[1], elem[1]))
+			f.write('\t\tself.sd_pinc_%s = gui.Slider(vals.pinc_%s, 0, samp_freq/2, 1, width="25%%", margin="10px")\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_pinc_%s.set_oninput_listener(self.sd_pinc_%s_changed)\n'%(elem[1], elem[1]))
-			f.write('\t\tself.sb_pinc_%s = gui.SpinBox(vals.pinc_%s, 0, 62500000, 0.02, width="10%%", margin="10px")\n'%(elem[1], elem[1]))
+			f.write('\t\tself.sb_pinc_%s = gui.SpinBox(vals.pinc_%s, 0, samp_freq/2, 0.02, width="10%%", margin="10px")\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sb_pinc_%s.set_on_change_listener(self.sb_pinc_%s_changed)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_poff_%s = gui.Slider(vals.poff_%s, -8192, 8191, 1, width="25%%", margin="10px")\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_poff_%s.set_oninput_listener(self.sd_poff_%s_changed)\n'%(elem[1], elem[1]))
