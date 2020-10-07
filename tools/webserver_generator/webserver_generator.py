@@ -98,7 +98,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('vals.ch2_dac_gain_%s = "false"\n'%elem[1])
 			f.write('vals.cb_external_reference_%s = "false"\n'%elem[1])
 
-		if elem[0] == 'shiterReal_dyn':
+		if elem[0] == 'shifterReal_dyn':
 			f.write('vals.%s = 9\n'%elem[1])
 
 		if elem[0] == 'nco_counter':
@@ -226,6 +226,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.sb_sign_%s.set_on_change_listener(self.sb_sign_%s_changed)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_sign_%s_changed(self.sd_sign_%s, self.sd_sign_%s.get_value())\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.hbox_%s = gui.HBox(margin="10px")\n'%elem[1])
+			f.write('\t\tself.hbox_sign_%s.append(self.lb_sign_%s)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.hbox_sign_%s.append(self.sd_sign_%s)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.hbox_sign_%s.append(self.sb_sign_%s)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.w.append(self.hbox_sign_%s)\n\n'%elem[1])
@@ -257,7 +258,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.hbox_%s.append(self.cb_external_reference_%s)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.w.append(self.hbox_%s)\n\n'%elem[1])
 
-		if elem[0] == 'shiterReal_dyn':
+		if elem[0] == 'shifterReal_dyn':
 			f.write('\t\tself.hbox_%s = gui.HBox(margin="10px")\n'%elem[1])
 			f.write('\t\tself.lb_%s = gui.Label("/dev/%s", width="20%%", margin="10px")\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_%s = gui.Slider(vals.%s, -8192, 8191, 1, width="60%%", margin="10px")\n'%(elem[1], elem[1]))
@@ -339,7 +340,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.ch1_dac_gain_%s_changed(self.ch1_dac_gain_%s, lf.ch2_dac_gain_%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.ch2_dac_gain_%s_changed(self.ch2_dac_gain_%s, lf.ch2_dac_gain_%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.cb_external_reference_%s_changed(self.cb_external_reference_%s, lf.cb_external_reference_%s)\n'%(elem[1], elem[1], elem[1]))
-		if elem[0] == 'shiterReal_dyn':
+		if elem[0] == 'shifterReal_dyn':
 			f.write('\t\tself.sd_%s_changed(self.sd_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.sb_%s_changed(self.sb_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
 		if elem[0] == 'nco_counter':
@@ -499,7 +500,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tliboscimp_fpga.redpitaya_converters_12_ext_ref_enable("/dev/%s", int(value=="true"))\n'%elem[1])
 			f.write('\t\tself.cb_external_reference_%s.set_value(int(value=="true"))\n\n'%elem[1])
 
-		if elem[0] == 'shiterReal_dyn':
+		if elem[0] == 'shifterReal_dyn':
 			f.write('\tdef sd_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
 			f.write('\t\tprint("/dev/%s", int(value))\n'%elem[1])
