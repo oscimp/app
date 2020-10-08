@@ -373,7 +373,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(value))\n'%elem[1])
 			else:
 				f.write('\t\tprint("/dev/%s", int(value))\n'%elem[1])
-				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(round(int(value)/(125e6/2**32))))\n'%elem[1])
+				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(round(int(value)/(samp_freq/2**40))))\n'%elem[1])
 			f.write('\t\tself.sb_%s.set_value(int(value))\n\n'%elem[1])
 			f.write('\tdef sb_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
@@ -382,7 +382,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(value))\n'%elem[1])
 			else:
 				f.write('\t\tprint("/dev/%s", value)\n'%elem[1])
-				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(round(float(value)/(125e6/2**32))))\n'%elem[1])
+				f.write('\t\tliboscimp_fpga.add_const_set_offset("/dev/%s", int(round(float(value)/(samp_freq/2**40))))\n'%elem[1])
 			f.write('\t\tself.sd_%s.set_value(int(float(value)))\n\n'%elem[1])
 
 		if elem[0] == 'axi_to_dac':
