@@ -494,7 +494,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 		if elem[0] == 'redpitaya_converters_12':
 
 			f.write('\tdef display_extref_state(self):\n')
-			f.write('\t\tref_state=liboscimp_fpga.redpitaya_converters_12_get_ref_status("/dev/converters")\n')
+			f.write('\t\tref_state=liboscimp_fpga.redpitaya_converters_12_get_ref_status("/dev/%s")\n'%elem[1])
 			f.write('\t\tif ref_state[1]==1:\n')
 			f.write('\t\t\tself.dcolor_extref_state.set_value("#0bff00")\n')
 			f.write('\t\telse :\n')
