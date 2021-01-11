@@ -36,6 +36,9 @@ add_ip_and_conf dataReal_dma_direct dataReal {
 	STOP_ON_EOF false }
 
 connect_intf converters dataA_out dataReal data1_in
+if {$NB_INPUT == 2} {
+  connect_intf converters dataB_out dataReal data2_in
+}
 connect_intf converters clk_o dataReal m00_axis_aclk
 connect_proc dataReal s00_axi 0x1000
 
