@@ -1,3 +1,17 @@
+set NB_INPUT 1
+set NB_SAMPLE [expr 1000000 / $NB_INPUT]
+
+# change to upper
+set up_board [string toupper $board_name]
+if {$up_board == "REDPITAYA"} {
+    set ADC_SIZE 14
+} else {
+    if {$up_board == "REDPITAYA16"} {
+        set ADC_SIZE 16
+    }
+}
+
+
 set_property -dict [ list CONFIG.PCW_IRQ_F2P_INTR 1 \
 	CONFIG.PCW_USE_FABRIC_INTERRUPT {1} \
 	CONFIG.PCW_USE_S_AXI_HP0 {1} ] $ps7
@@ -5,7 +19,7 @@ set_property -dict [ list CONFIG.PCW_IRQ_F2P_INTR 1 \
 # ADC
 add_ip_and_conf redpitaya_converters converters {
 	DAC_EN false \
-	ADC_SIZE 14 }
+	ADC_SIZE $ADC_SIZE }
 
 connect_proc_rst converters adc_rst_i
 connect_to_fpga_pins converters phys_interface phys_interface_0
@@ -14,10 +28,10 @@ connect_intf converters clk_o ps7 S_AXI_HP0_ACLK
 
 #dataReal
 add_ip_and_conf dataReal_dma_direct dataReal {
-	NB_INPUT 1 \
-	NB_SAMPLE 1000000 \
+	NB_INPUT $NB_INPUT \
+	NB_SAMPLE $NB_SAMPLE \
 	SIGNED_FORMAT true \
-	DATA_SIZE 14 \
+	DATA_SIZE $ADC_SIZE \
 	USE_SOF false \
 	STOP_ON_EOF false }
 
