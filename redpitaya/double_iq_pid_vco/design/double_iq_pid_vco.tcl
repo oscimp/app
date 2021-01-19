@@ -1,27 +1,100 @@
+
+# change to upper
+set up_board [string toupper $board_name]
+if {$up_board == "REDPITAYA"} {
+    set ADC_SIZE 14
+} else {
+    if {$up_board == "REDPITAYA16"} {
+        set ADC_SIZE 16
+    }
+}
+
 # Create instance: redpitaya_converters_0, and set properties
 add_ip_and_conf redpitaya_converters redpitaya_converters_0 {
-	CLOCK_DUTY_CYCLE_STABILIZER_EN {false} }
+	CLOCK_DUTY_CYCLE_STABILIZER_EN {false} \
+	ADC_SIZE $ADC_SIZE }
 connect_to_fpga_pins redpitaya_converters_0 phys_interface phys_interface_0
 
 # Create instance: adc1_offset, and set properties
 add_ip_and_conf add_constReal adc1_offset {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} }
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE $ADC_SIZE }
 connect_proc adc1_offset s00_axi 0x50000
 
 # Create instance: adc2_offset, and set properties
 add_ip_and_conf add_constReal adc2_offset {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} }
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE $ADC_SIZE }
 connect_proc adc2_offset s00_axi 0x40000
+
+# Create instance: mixer_sin_0, and set properties
+add_ip_and_conf mixer_sin mixer_sin_0 {
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE $ADC_SIZE \
+	NCO_SIZE {16} }
+
+# Create instance: mixer_sin_1, and set properties
+add_ip_and_conf mixer_sin mixer_sin_1 {
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE $ADC_SIZE \
+	NCO_SIZE {16} }
 
 # Create instance: convertComplexToReal_0, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_0 {
-	DATA_SIZE {14} }
+	DATA_SIZE $ADC_SIZE }
 
 # Create instance: convertComplexToReal_1, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_1 {
-	DATA_SIZE {14} }
+	DATA_SIZE $ADC_SIZE }
+
+## GGM TODO: fix output size if ADC_SIZE == 16
+# Create instance: firReal_0, and set properties
+add_ip_and_conf firReal firReal_0 {
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE {32} \
+	DECIMATE_FACTOR {1} \
+	NB_COEFF {25} }
+connect_proc firReal_0 s00_axi 0x80000
+
+# Create instance: firReal_1, and set properties
+add_ip_and_conf firReal firReal_1 {
+	DATA_IN_SIZE $ADC_SIZE \
+	DATA_OUT_SIZE {32} \
+	DECIMATE_FACTOR {1} \
+	NB_COEFF {25} }
+connect_proc firReal_1 s00_axi 0x90000
+
+# Create instance: shifterReal_dyn_0, and set properties
+add_ip_and_conf shifterReal_dyn shifterReal_dyn_0 {
+	DATA_IN_SIZE 32 \
+	DATA_OUT_SIZE $ADC_SIZE }
+connect_proc shifterReal_dyn_0 s00_axi 0x20000
+
+# Create instance: shifterReal_dyn_1, and set properties
+add_ip_and_conf shifterReal_dyn shifterReal_dyn_1 {
+	DATA_IN_SIZE 32 \
+	DATA_OUT_SIZE $ADC_SIZE }
+connect_proc shifterReal_dyn_1 s00_axi 0xA0000
+
+# Create instance: dupplReal_1_to_2_1, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_1 {
+	DATA_SIZE $ADC_SIZE }
+
+# Create instance: dupplReal_1_to_2_2, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_2 {
+	DATA_SIZE $ADC_SIZE }
+
+# Create instance: dupplReal_1_to_2_4, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_4 {
+	DATA_SIZE $ADC_SIZE }
+
+# Create instance: dupplReal_1_to_2_3, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_3 {
+	DATA_SIZE $ADC_SIZE }
+
+# GGM stop here
+# TODO: meanReal_{0-3} and next
+#       pid and next
 
 # Create instance: convertComplexToReal_4, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_4 {
@@ -125,22 +198,6 @@ connect_intf redpitaya_converters_0 clk_o demod2_nco ref_clk_i
 connect_intf redpitaya_converters_0 rst_o demod2_nco ref_rst_i
 connect_proc demod2_nco s00_axi 0x70000
 
-# Create instance: dupplReal_1_to_2_1, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_1 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_2, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_2 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_3, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_3 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_4, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_4 {
-	DATA_SIZE {14} }
-
 # Create instance: expanderReal_2, and set properties
 add_ip_and_conf expanderReal expanderReal_2 {
 	DATA_IN_SIZE {14} \
@@ -150,22 +207,6 @@ add_ip_and_conf expanderReal expanderReal_2 {
 add_ip_and_conf expanderReal expanderReal_3 {
 	DATA_IN_SIZE {14} \
 	DATA_OUT_SIZE {19} }
-
-# Create instance: firReal_0, and set properties
-add_ip_and_conf firReal firReal_0 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {32} \
-	DECIMATE_FACTOR {1} \
-	NB_COEFF {25} }
-connect_proc firReal_0 s00_axi 0x80000
-
-# Create instance: firReal_1, and set properties
-add_ip_and_conf firReal firReal_1 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {32} \
-	DECIMATE_FACTOR {1} \
-	NB_COEFF {25} }
-connect_proc firReal_1 s00_axi 0x90000
 
 # Create instance: meanReal_0, and set properties
 add_ip_and_conf meanReal meanReal_0 {
@@ -194,18 +235,6 @@ add_ip_and_conf meanReal meanReal_3 {
 	DATA_OUT_SIZE {16} \
 	NB_ACCUM {8192} \
 	SHIFT {13} }
-
-# Create instance: mixer_sin_0, and set properties
-add_ip_and_conf mixer_sin mixer_sin_0 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
-
-# Create instance: mixer_sin_1, and set properties
-add_ip_and_conf mixer_sin mixer_sin_1 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
 
 # Create instance: mixer_sin_2, and set properties
 add_ip_and_conf multiplierReal mixer_sin_2 {
@@ -240,6 +269,7 @@ add_ip_and_conf pidv3_axi pidv3_axi_0 {
 	PSR {13} }
 connect_proc pidv3_axi_0 s00_axi 0x30000
 
+# GGM: TODO: fix size when ADC_SIZE = 16
 # Create instance: pidv3_axi_1, and set properties
 add_ip_and_conf pidv3_axi pidv3_axi_1 {
 	DSR {1} \
@@ -257,16 +287,6 @@ add_ip_and_conf shifterReal shifterReal_2 {
 add_ip_and_conf shifterReal shifterReal_3 {
 	DATA_IN_SIZE {19} \
 	DATA_OUT_SIZE {40} }
-
-# Create instance: shifterReal_dyn_0, and set properties
-add_ip_and_conf shifterReal_dyn shifterReal_dyn_0 {
-	DATA_OUT_SIZE {14} }
-connect_proc shifterReal_dyn_0 s00_axi 0x20000
-
-# Create instance: shifterReal_dyn_1, and set properties
-add_ip_and_conf shifterReal_dyn shifterReal_dyn_1 {
-	DATA_OUT_SIZE {14} }
-connect_proc shifterReal_dyn_1 s00_axi 0xA0000
 
 # Create interface connections
 connect_proc_rst redpitaya_converters_0 adc_rst_i
