@@ -1,6 +1,10 @@
 *.o
 *.swp
 *.dtb
+*.dtbo
 *_us
 *.c~
 *.h~
+tmp
+*.jou
+*.log
