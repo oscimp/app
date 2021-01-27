@@ -9,7 +9,7 @@ if {$up_board == "REDPITAYA"} {
     }
 }
 
-AFTER_FIR_SIZE 14
+set AFTER_FIR_SIZE 14
 
 # Create instance: redpitaya_converters_0, and set properties
 add_ip_and_conf redpitaya_converters redpitaya_converters_0 {
