@@ -9,6 +9,8 @@ if {$up_board == "REDPITAYA"} {
     }
 }
 
+AFTER_FIR_SIZE 14
+
 # Create instance: redpitaya_converters_0, and set properties
 add_ip_and_conf redpitaya_converters redpitaya_converters_0 {
 	CLOCK_DUTY_CYCLE_STABILIZER_EN {false} \
@@ -67,30 +69,30 @@ connect_proc firReal_1 s00_axi 0x90000
 # Create instance: shifterReal_dyn_0, and set properties
 add_ip_and_conf shifterReal_dyn shifterReal_dyn_0 {
 	DATA_IN_SIZE 32 \
-	DATA_OUT_SIZE $ADC_SIZE }
+	DATA_OUT_SIZE $AFTER_FIR_SIZE }
 connect_proc shifterReal_dyn_0 s00_axi 0x20000
 
 # Create instance: shifterReal_dyn_1, and set properties
 add_ip_and_conf shifterReal_dyn shifterReal_dyn_1 {
 	DATA_IN_SIZE 32 \
-	DATA_OUT_SIZE $ADC_SIZE }
+	DATA_OUT_SIZE $AFTER_FIR_SIZE }
 connect_proc shifterReal_dyn_1 s00_axi 0xA0000
 
 # Create instance: dupplReal_1_to_2_1, and set properties
 add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_1 {
-	DATA_SIZE $ADC_SIZE }
+	DATA_SIZE $AFTER_FIR_SIZE }
 
 # Create instance: dupplReal_1_to_2_2, and set properties
 add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_2 {
-	DATA_SIZE $ADC_SIZE }
+	DATA_SIZE $AFTER_FIR_SIZE }
 
 # Create instance: dupplReal_1_to_2_4, and set properties
 add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_4 {
-	DATA_SIZE $ADC_SIZE }
+	DATA_SIZE $AFTER_FIR_SIZE }
 
 # Create instance: dupplReal_1_to_2_3, and set properties
 add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_3 {
-	DATA_SIZE $ADC_SIZE }
+	DATA_SIZE $AFTER_FIR_SIZE }
 
 # GGM stop here
 # TODO: meanReal_{0-3} and next
