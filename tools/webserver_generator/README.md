@@ -10,8 +10,9 @@ Dependencies
 ------------
 - REMI python package https://github.com/dddomodossola/remi.git
 - lxml python package
-- liboscimp_fgpa python wrap (see [fpga_lib](https://github.com/oscimp/lib/))
-
+- zlib python3 package
+- ssl python3 package
+- liboscimp_fgpa python wrap (see [fpga_lib](https://github.com/oscimp/lib/)) in ``/usr/lib/python3.9/site-packages/``
 
 Test it
 -------
@@ -30,7 +31,7 @@ same than the one used to configure [module generator](https://github.com/oscimp
 Structure
 ---------
 
-The webserver works through the C coded functions associated to each IP, visible in the /oscimpDigital/lib/my\_lib.h library files. 
+The webserver works through the C coded functions associated to each IP, visible in the /oscimpDigital/lib/my_lib.h library files. 
 Example of functions with a generic driver "fpgagen":
 
 ```C
