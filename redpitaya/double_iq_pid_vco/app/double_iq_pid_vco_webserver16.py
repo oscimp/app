@@ -72,7 +72,7 @@ class MyApp(App):
 		self.hbox_adc1_offset = gui.HBox(margin="10px")
 		self.lb_adc1_offset = gui.Label("/dev/adc1_offset", width="20%", margin="10px")
 		self.sd_adc1_offset = gui.Slider(vals.adc1_offset, -32766, 32765, 1, width="60%", margin="10px")
-		self.sd_adc1_offset.set_oninput_listener(self.sd_adc1_offset_changed)
+		self.sd_adc1_offset.onchange.do(self.sd_adc1_offset_changed)
 		self.sb_adc1_offset = gui.SpinBox(vals.adc1_offset, -32766, 32765, 1, width="20%", margin="10px")
 		self.sb_adc1_offset.set_on_change_listener(self.sb_adc1_offset_changed)
 		self.sd_adc1_offset_changed(self.sd_adc1_offset, self.sd_adc1_offset.get_value())
@@ -84,7 +84,7 @@ class MyApp(App):
 		self.hbox_adc2_offset = gui.HBox(margin="10px")
 		self.lb_adc2_offset = gui.Label("/dev/adc2_offset", width="20%", margin="10px")
 		self.sd_adc2_offset = gui.Slider(vals.adc2_offset, -32766, 32765, 1, width="60%", margin="10px")
-		self.sd_adc2_offset.set_oninput_listener(self.sd_adc2_offset_changed)
+		self.sd_adc2_offset.onchange.do(self.sd_adc2_offset_changed)
 		self.sb_adc2_offset = gui.SpinBox(vals.adc2_offset, -32766, 32765, 1, width="20%", margin="10px")
 		self.sb_adc2_offset.set_on_change_listener(self.sb_adc2_offset_changed)
 		self.sd_adc2_offset_changed(self.sd_adc2_offset, self.sd_adc2_offset.get_value())
@@ -96,7 +96,7 @@ class MyApp(App):
 		self.hbox_dds1_f0 = gui.HBox(margin="10px")
 		self.lb_dds1_f0 = gui.Label("/dev/dds1_f0", width="20%", margin="10px")
 		self.sd_dds1_f0 = gui.Slider(vals.dds1_f0, 0, 61440000, 1, width="60%", margin="10px")
-		self.sd_dds1_f0.set_oninput_listener(self.sd_dds1_f0_changed)
+		self.sd_dds1_f0.onchange.do(self.sd_dds1_f0_changed)
 		self.sb_dds1_f0 = gui.SpinBox(vals.dds1_f0, 0, 61440000, 0.02, width="20%", margin="10px")
 		self.sb_dds1_f0.set_on_change_listener(self.sb_dds1_f0_changed)
 		self.sd_dds1_f0_changed(self.sd_dds1_f0, self.sd_dds1_f0.get_value())
@@ -108,11 +108,11 @@ class MyApp(App):
 		self.hbox_dds1_nco = gui.HBox(margin="10px")
 		self.lb_dds1_nco = gui.Label("/dev/dds1_nco", width="20%", margin="10px")
 		self.sd_pinc_dds1_nco = gui.Slider(vals.pinc_dds1_nco, 0, 61440000, 1, width="25%", margin="10px")
-		self.sd_pinc_dds1_nco.set_oninput_listener(self.sd_pinc_dds1_nco_changed)
+		self.sd_pinc_dds1_nco.onchange.do(self.sd_pinc_dds1_nco_changed)
 		self.sb_pinc_dds1_nco = gui.SpinBox(vals.pinc_dds1_nco, 0, 61440000, 0.02, width="10%", margin="10px")
 		self.sb_pinc_dds1_nco.set_on_change_listener(self.sb_pinc_dds1_nco_changed)
 		self.sd_poff_dds1_nco = gui.Slider(vals.poff_dds1_nco, -8192, 8191, 1, width="25%", margin="10px")
-		self.sd_poff_dds1_nco.set_oninput_listener(self.sd_poff_dds1_nco_changed)
+		self.sd_poff_dds1_nco.onchange.do(self.sd_poff_dds1_nco_changed)
 		self.sb_poff_dds1_nco = gui.SpinBox(vals.poff_dds1_nco, -8192, 8191, 1, width="10%", margin="10px")
 		self.sb_poff_dds1_nco.set_on_change_listener(self.sb_poff_dds1_nco_changed)
 		self.cb_pinc_dds1_nco = gui.CheckBoxLabel("pinc", vals.cb_pinc_dds1_nco, width="5%", margin="10px")
@@ -131,7 +131,7 @@ class MyApp(App):
 		self.hbox_dds1_offset = gui.HBox(margin="10px")
 		self.lb_dds1_offset = gui.Label("/dev/dds1_offset", width="20%", margin="10px")
 		self.sd_dds1_offset = gui.Slider(vals.dds1_offset, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_dds1_offset.set_oninput_listener(self.sd_dds1_offset_changed)
+		self.sd_dds1_offset.onchange.do(self.sd_dds1_offset_changed)
 		self.sb_dds1_offset = gui.SpinBox(vals.dds1_offset, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_dds1_offset.set_on_change_listener(self.sb_dds1_offset_changed)
 		self.sd_dds1_offset_changed(self.sd_dds1_offset, self.sd_dds1_offset.get_value())
@@ -143,7 +143,7 @@ class MyApp(App):
 		self.hbox_dds2_f0 = gui.HBox(margin="10px")
 		self.lb_dds2_f0 = gui.Label("/dev/dds2_f0", width="20%", margin="10px")
 		self.sd_dds2_f0 = gui.Slider(vals.dds2_f0, 0, 61440000, 1, width="60%", margin="10px")
-		self.sd_dds2_f0.set_oninput_listener(self.sd_dds2_f0_changed)
+		self.sd_dds2_f0.onchange.do(self.sd_dds2_f0_changed)
 		self.sb_dds2_f0 = gui.SpinBox(vals.dds2_f0, 0, 61440000, 0.02, width="20%", margin="10px")
 		self.sb_dds2_f0.set_on_change_listener(self.sb_dds2_f0_changed)
 		self.sd_dds2_f0_changed(self.sd_dds2_f0, self.sd_dds2_f0.get_value())
@@ -155,11 +155,11 @@ class MyApp(App):
 		self.hbox_dds2_nco = gui.HBox(margin="10px")
 		self.lb_dds2_nco = gui.Label("/dev/dds2_nco", width="20%", margin="10px")
 		self.sd_pinc_dds2_nco = gui.Slider(vals.pinc_dds2_nco, 0, 61440000, 1, width="25%", margin="10px")
-		self.sd_pinc_dds2_nco.set_oninput_listener(self.sd_pinc_dds2_nco_changed)
+		self.sd_pinc_dds2_nco.onchange.do(self.sd_pinc_dds2_nco_changed)
 		self.sb_pinc_dds2_nco = gui.SpinBox(vals.pinc_dds2_nco, 0, 61440000, 0.02, width="10%", margin="10px")
 		self.sb_pinc_dds2_nco.set_on_change_listener(self.sb_pinc_dds2_nco_changed)
 		self.sd_poff_dds2_nco = gui.Slider(vals.poff_dds2_nco, -8192, 8191, 1, width="25%", margin="10px")
-		self.sd_poff_dds2_nco.set_oninput_listener(self.sd_poff_dds2_nco_changed)
+		self.sd_poff_dds2_nco.onchange.do(self.sd_poff_dds2_nco_changed)
 		self.sb_poff_dds2_nco = gui.SpinBox(vals.poff_dds2_nco, -8192, 8191, 1, width="10%", margin="10px")
 		self.sb_poff_dds2_nco.set_on_change_listener(self.sb_poff_dds2_nco_changed)
 		self.cb_pinc_dds2_nco = gui.CheckBoxLabel("pinc", vals.cb_pinc_dds2_nco, width="5%", margin="10px")
@@ -178,7 +178,7 @@ class MyApp(App):
 		self.hbox_dds2_offset = gui.HBox(margin="10px")
 		self.lb_dds2_offset = gui.Label("/dev/dds2_offset", width="20%", margin="10px")
 		self.sd_dds2_offset = gui.Slider(vals.dds2_offset, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_dds2_offset.set_oninput_listener(self.sd_dds2_offset_changed)
+		self.sd_dds2_offset.onchange.do(self.sd_dds2_offset_changed)
 		self.sb_dds2_offset = gui.SpinBox(vals.dds2_offset, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_dds2_offset.set_on_change_listener(self.sb_dds2_offset_changed)
 		self.sd_dds2_offset_changed(self.sd_dds2_offset, self.sd_dds2_offset.get_value())
@@ -190,7 +190,7 @@ class MyApp(App):
 		self.hbox_ch1_dds_ampl = gui.HBox(margin="10px")
 		self.lb_ch1_dds_ampl = gui.Label("/dev/dds_ampl/1", width="20%", margin="10px")
 		self.sd_ch1_dds_ampl = gui.Slider(vals.ch1_dds_ampl, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ch1_dds_ampl.set_oninput_listener(self.sd_ch1_dds_ampl_changed)
+		self.sd_ch1_dds_ampl.onchange.do(self.sd_ch1_dds_ampl_changed)
 		self.sb_ch1_dds_ampl = gui.SpinBox(vals.ch1_dds_ampl, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ch1_dds_ampl.set_on_change_listener(self.sb_ch1_dds_ampl_changed)
 		self.sd_ch1_dds_ampl_changed(self.sd_ch1_dds_ampl, self.sd_ch1_dds_ampl.get_value())
@@ -202,7 +202,7 @@ class MyApp(App):
 		self.hbox_ch2_dds_ampl = gui.HBox(margin="10px")
 		self.lb_ch2_dds_ampl = gui.Label("/dev/dds_ampl/2", width="20%", margin="10px")
 		self.sd_ch2_dds_ampl = gui.Slider(vals.ch2_dds_ampl, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ch2_dds_ampl.set_oninput_listener(self.sd_ch2_dds_ampl_changed)
+		self.sd_ch2_dds_ampl.onchange.do(self.sd_ch2_dds_ampl_changed)
 		self.sb_ch2_dds_ampl = gui.SpinBox(vals.ch2_dds_ampl, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ch2_dds_ampl.set_on_change_listener(self.sb_ch2_dds_ampl_changed)
 		self.sd_ch2_dds_ampl_changed(self.sd_ch2_dds_ampl, self.sd_ch2_dds_ampl.get_value())
@@ -214,7 +214,7 @@ class MyApp(App):
 		self.hbox_ch1_dds_range = gui.HBox(margin="10px")
 		self.lb_ch1_dds_range = gui.Label("/dev/dds_range/1", width="20%", margin="10px")
 		self.sd_ch1_dds_range = gui.Slider(vals.ch1_dds_range, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ch1_dds_range.set_oninput_listener(self.sd_ch1_dds_range_changed)
+		self.sd_ch1_dds_range.onchange.do(self.sd_ch1_dds_range_changed)
 		self.sb_ch1_dds_range = gui.SpinBox(vals.ch1_dds_range, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ch1_dds_range.set_on_change_listener(self.sb_ch1_dds_range_changed)
 		self.sd_ch1_dds_range_changed(self.sd_ch1_dds_range, self.sd_ch1_dds_range.get_value())
@@ -226,7 +226,7 @@ class MyApp(App):
 		self.hbox_ch2_dds_range = gui.HBox(margin="10px")
 		self.lb_ch2_dds_range = gui.Label("/dev/dds_range/2", width="20%", margin="10px")
 		self.sd_ch2_dds_range = gui.Slider(vals.ch2_dds_range, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ch2_dds_range.set_oninput_listener(self.sd_ch2_dds_range_changed)
+		self.sd_ch2_dds_range.onchange.do(self.sd_ch2_dds_range_changed)
 		self.sb_ch2_dds_range = gui.SpinBox(vals.ch2_dds_range, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ch2_dds_range.set_on_change_listener(self.sb_ch2_dds_range_changed)
 		self.sd_ch2_dds_range_changed(self.sd_ch2_dds_range, self.sd_ch2_dds_range.get_value())
@@ -238,11 +238,11 @@ class MyApp(App):
 		self.hbox_demod1_nco = gui.HBox(margin="10px")
 		self.lb_demod1_nco = gui.Label("/dev/demod1_nco", width="20%", margin="10px")
 		self.sd_pinc_demod1_nco = gui.Slider(vals.pinc_demod1_nco, 0, 61440000, 1, width="25%", margin="10px")
-		self.sd_pinc_demod1_nco.set_oninput_listener(self.sd_pinc_demod1_nco_changed)
+		self.sd_pinc_demod1_nco.onchange.do(self.sd_pinc_demod1_nco_changed)
 		self.sb_pinc_demod1_nco = gui.SpinBox(vals.pinc_demod1_nco, 0, 61440000, 0.02, width="10%", margin="10px")
 		self.sb_pinc_demod1_nco.set_on_change_listener(self.sb_pinc_demod1_nco_changed)
 		self.sd_poff_demod1_nco = gui.Slider(vals.poff_demod1_nco, -8192, 8191, 1, width="25%", margin="10px")
-		self.sd_poff_demod1_nco.set_oninput_listener(self.sd_poff_demod1_nco_changed)
+		self.sd_poff_demod1_nco.onchange.do(self.sd_poff_demod1_nco_changed)
 		self.sb_poff_demod1_nco = gui.SpinBox(vals.poff_demod1_nco, -8192, 8191, 1, width="10%", margin="10px")
 		self.sb_poff_demod1_nco.set_on_change_listener(self.sb_poff_demod1_nco_changed)
 		self.cb_pinc_demod1_nco = gui.CheckBoxLabel("pinc", vals.cb_pinc_demod1_nco, width="5%", margin="10px")
@@ -261,11 +261,11 @@ class MyApp(App):
 		self.hbox_demod2_nco = gui.HBox(margin="10px")
 		self.lb_demod2_nco = gui.Label("/dev/demod2_nco", width="20%", margin="10px")
 		self.sd_pinc_demod2_nco = gui.Slider(vals.pinc_demod2_nco, 0, 61440000, 1, width="25%", margin="10px")
-		self.sd_pinc_demod2_nco.set_oninput_listener(self.sd_pinc_demod2_nco_changed)
+		self.sd_pinc_demod2_nco.onchange.do(self.sd_pinc_demod2_nco_changed)
 		self.sb_pinc_demod2_nco = gui.SpinBox(vals.pinc_demod2_nco, 0, 61440000, 0.02, width="10%", margin="10px")
 		self.sb_pinc_demod2_nco.set_on_change_listener(self.sb_pinc_demod2_nco_changed)
 		self.sd_poff_demod2_nco = gui.Slider(vals.poff_demod2_nco, -8192, 8191, 1, width="25%", margin="10px")
-		self.sd_poff_demod2_nco.set_oninput_listener(self.sd_poff_demod2_nco_changed)
+		self.sd_poff_demod2_nco.onchange.do(self.sd_poff_demod2_nco_changed)
 		self.sb_poff_demod2_nco = gui.SpinBox(vals.poff_demod2_nco, -8192, 8191, 1, width="10%", margin="10px")
 		self.sb_poff_demod2_nco.set_on_change_listener(self.sb_poff_demod2_nco_changed)
 		self.cb_pinc_demod2_nco = gui.CheckBoxLabel("pinc", vals.cb_pinc_demod2_nco, width="5%", margin="10px")
@@ -284,7 +284,7 @@ class MyApp(App):
 		self.hbox_kp_pid1 = gui.HBox(margin="10px")
 		self.lb_kp_pid1 = gui.Label("/dev/pid1/kp", width="20%", margin="10px")
 		self.sd_kp_pid1 = gui.Slider(vals.kp_pid1, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_kp_pid1.set_oninput_listener(self.sd_kp_pid1_changed)
+		self.sd_kp_pid1.onchange.do(self.sd_kp_pid1_changed)
 		self.sb_kp_pid1 = gui.SpinBox(vals.kp_pid1, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_kp_pid1.set_on_change_listener(self.sb_kp_pid1_changed)
 		self.sd_kp_pid1_changed(self.sd_kp_pid1, self.sd_kp_pid1.get_value())
@@ -296,7 +296,7 @@ class MyApp(App):
 		self.hbox_ki_pid1 = gui.HBox(margin="10px")
 		self.lb_ki_pid1 = gui.Label("/dev/pid1/ki", width="20%", margin="10px")
 		self.sd_ki_pid1 = gui.Slider(vals.ki_pid1, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ki_pid1.set_oninput_listener(self.sd_ki_pid1_changed)
+		self.sd_ki_pid1.onchange.do(self.sd_ki_pid1_changed)
 		self.sb_ki_pid1 = gui.SpinBox(vals.ki_pid1, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ki_pid1.set_on_change_listener(self.sb_ki_pid1_changed)
 		self.sd_ki_pid1_changed(self.sd_ki_pid1, self.sd_ki_pid1.get_value())
@@ -311,7 +311,7 @@ class MyApp(App):
 		self.hbox_sp_pid1 = gui.HBox(margin="10px")
 		self.lb_sp_pid1 = gui.Label("/dev/pid1/setpoint", width="20%", margin="10px")
 		self.sd_sp_pid1 = gui.Slider(vals.sp_pid1, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_sp_pid1.set_oninput_listener(self.sd_sp_pid1_changed)
+		self.sd_sp_pid1.onchange.do(self.sd_sp_pid1_changed)
 		self.sb_sp_pid1 = gui.SpinBox(vals.sp_pid1, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_sp_pid1.set_on_change_listener(self.sb_sp_pid1_changed)
 		self.sd_sp_pid1_changed(self.sd_sp_pid1, self.sd_sp_pid1.get_value())
@@ -323,7 +323,7 @@ class MyApp(App):
 		self.hbox_sign_pid1 = gui.HBox(margin="10px")
 		self.lb_sign_pid1 = gui.Label("/dev/pid1/sign", width="20%", margin="10px")
 		self.sd_sign_pid1 = gui.Slider(vals.sign_pid1, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_sign_pid1.set_oninput_listener(self.sd_sign_pid1_changed)
+		self.sd_sign_pid1.onchange.do(self.sd_sign_pid1_changed)
 		self.sb_sign_pid1 = gui.SpinBox(vals.sign_pid1, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_sign_pid1.set_on_change_listener(self.sb_sign_pid1_changed)
 		self.sd_sign_pid1_changed(self.sd_sign_pid1, self.sd_sign_pid1.get_value())
@@ -335,7 +335,7 @@ class MyApp(App):
 		self.hbox_kp_pid2 = gui.HBox(margin="10px")
 		self.lb_kp_pid2 = gui.Label("/dev/pid2/kp", width="20%", margin="10px")
 		self.sd_kp_pid2 = gui.Slider(vals.kp_pid2, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_kp_pid2.set_oninput_listener(self.sd_kp_pid2_changed)
+		self.sd_kp_pid2.onchange.do(self.sd_kp_pid2_changed)
 		self.sb_kp_pid2 = gui.SpinBox(vals.kp_pid2, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_kp_pid2.set_on_change_listener(self.sb_kp_pid2_changed)
 		self.sd_kp_pid2_changed(self.sd_kp_pid2, self.sd_kp_pid2.get_value())
@@ -347,7 +347,7 @@ class MyApp(App):
 		self.hbox_ki_pid2 = gui.HBox(margin="10px")
 		self.lb_ki_pid2 = gui.Label("/dev/pid2/ki", width="20%", margin="10px")
 		self.sd_ki_pid2 = gui.Slider(vals.ki_pid2, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_ki_pid2.set_oninput_listener(self.sd_ki_pid2_changed)
+		self.sd_ki_pid2.onchange.do(self.sd_ki_pid2_changed)
 		self.sb_ki_pid2 = gui.SpinBox(vals.ki_pid2, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_ki_pid2.set_on_change_listener(self.sb_ki_pid2_changed)
 		self.sd_ki_pid2_changed(self.sd_ki_pid2, self.sd_ki_pid2.get_value())
@@ -362,7 +362,7 @@ class MyApp(App):
 		self.hbox_sp_pid2 = gui.HBox(margin="10px")
 		self.lb_sp_pid2 = gui.Label("/dev/pid2/setpoint", width="20%", margin="10px")
 		self.sd_sp_pid2 = gui.Slider(vals.sp_pid2, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_sp_pid2.set_oninput_listener(self.sd_sp_pid2_changed)
+		self.sd_sp_pid2.onchange.do(self.sd_sp_pid2_changed)
 		self.sb_sp_pid2 = gui.SpinBox(vals.sp_pid2, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_sp_pid2.set_on_change_listener(self.sb_sp_pid2_changed)
 		self.sd_sp_pid2_changed(self.sd_sp_pid2, self.sd_sp_pid2.get_value())
@@ -374,7 +374,7 @@ class MyApp(App):
 		self.hbox_sign_pid2 = gui.HBox(margin="10px")
 		self.lb_sign_pid2 = gui.Label("/dev/pid2/sign", width="20%", margin="10px")
 		self.sd_sign_pid2 = gui.Slider(vals.sign_pid2, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_sign_pid2.set_oninput_listener(self.sd_sign_pid2_changed)
+		self.sd_sign_pid2.onchange.do(self.sd_sign_pid2_changed)
 		self.sb_sign_pid2 = gui.SpinBox(vals.sign_pid2, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_sign_pid2.set_on_change_listener(self.sb_sign_pid2_changed)
 		self.sd_sign_pid2_changed(self.sd_sign_pid2, self.sd_sign_pid2.get_value())
@@ -386,7 +386,7 @@ class MyApp(App):
 		self.hbox_shift1_dyn = gui.HBox(margin="10px")
 		self.lb_shift1_dyn = gui.Label("/dev/shift1_dyn", width="20%", margin="10px")
 		self.sd_shift1_dyn = gui.Slider(vals.shift1_dyn, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_shift1_dyn.set_oninput_listener(self.sd_shift1_dyn_changed)
+		self.sd_shift1_dyn.onchange.do(self.sd_shift1_dyn_changed)
 		self.sb_shift1_dyn = gui.SpinBox(vals.shift1_dyn, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_shift1_dyn.set_on_change_listener(self.sb_shift1_dyn_changed)
 		self.sd_shift1_dyn_changed(self.sd_shift1_dyn, self.sd_shift1_dyn.get_value())
@@ -398,7 +398,7 @@ class MyApp(App):
 		self.hbox_shift2_dyn = gui.HBox(margin="10px")
 		self.lb_shift2_dyn = gui.Label("/dev/shift2_dyn", width="20%", margin="10px")
 		self.sd_shift2_dyn = gui.Slider(vals.shift2_dyn, -8192, 8191, 1, width="60%", margin="10px")
-		self.sd_shift2_dyn.set_oninput_listener(self.sd_shift2_dyn_changed)
+		self.sd_shift2_dyn.onchange.do(self.sd_shift2_dyn_changed)
 		self.sb_shift2_dyn = gui.SpinBox(vals.shift2_dyn, -8192, 8191, 1, width="20%", margin="10px")
 		self.sb_shift2_dyn.set_on_change_listener(self.sb_shift2_dyn_changed)
 		self.sd_shift2_dyn_changed(self.sd_shift2_dyn, self.sd_shift2_dyn.get_value())
@@ -533,38 +533,38 @@ class MyApp(App):
 	def sd_pinc_dds1_nco_changed(self, widget, value):
 		vals.pinc_dds1_nco=value
 		print("/dev/dds1_nco", 122880000, int(value), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
 		self.sb_pinc_dds1_nco.set_value(int(value))
 
 	def sb_pinc_dds1_nco_changed(self, widget, value):
 		vals.pinc_dds1_nco=value
 		print("/dev/dds1_nco", 122880000, value, 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
 		self.sd_pinc_dds1_nco.set_value(value)
 
 	def sd_poff_dds1_nco_changed(self, widget, value):
 		vals.poff_dds1_nco=value
 		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
 		self.sb_poff_dds1_nco.set_value(value)
 
 	def sb_poff_dds1_nco_changed(self, widget, value):
 		vals.poff_dds1_nco=value
 		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(value), int(self.cb_pinc_dds1_nco.get_value()), int(self.cb_poff_dds1_nco.get_value()))
 		self.sd_poff_dds1_nco.set_value(value)
 
 	def cb_pinc_dds1_nco_changed(self, widget, value):
 		vals.cb_pinc_dds1_nco=value
-		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(self.sb_poff_dds1_nco.get_value()), int(value=="true"), int(self.cb_poff_dds1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(self.sb_poff_dds1_nco.get_value()), int(value == "true"), int(self.cb_poff_dds1_nco.get_value()))
-		self.cb_pinc_dds1_nco.set_value(int(value=="true"))
+		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(self.sb_poff_dds1_nco.get_value()), int(value==True), int(self.cb_poff_dds1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(self.sb_poff_dds1_nco.get_value()), int(value ==True), int(self.cb_poff_dds1_nco.get_value()))
+		self.cb_pinc_dds1_nco.set_value(int(value==True))
 
 	def cb_poff_dds1_nco_changed(self, widget, value):
 		vals.cb_poff_dds1_nco=value
-		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(value=="true"))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(value=="true"))
-		self.cb_poff_dds1_nco.set_value(int(value=="true"))
+		print("/dev/dds1_nco", 122880000, self.sb_pinc_dds1_nco.get_value(), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(value==True))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds1_nco.get_value())), 40, int(self.sb_poff_dds1_nco.get_value()), int(self.cb_pinc_dds1_nco.get_value()), int(value==True))
+		self.cb_poff_dds1_nco.set_value(int(value==True))
 
 	def sd_dds1_offset_changed(self, widget, value):
 		vals.dds1_offset=value
@@ -593,38 +593,38 @@ class MyApp(App):
 	def sd_pinc_dds2_nco_changed(self, widget, value):
 		vals.pinc_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, int(value), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 		self.sb_pinc_dds2_nco.set_value(int(value))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 
 	def sb_pinc_dds2_nco_changed(self, widget, value):
 		vals.pinc_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, value, 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 		self.sd_pinc_dds2_nco.set_value(value)
 
 	def sd_poff_dds2_nco_changed(self, widget, value):
 		vals.poff_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(value), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(value), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 		self.sb_poff_dds2_nco.set_value(value)
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 
 	def sb_poff_dds2_nco_changed(self, widget, value):
 		vals.poff_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(value), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(value), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
 		self.sd_poff_dds2_nco.set_value(value)
 
 	def cb_pinc_dds2_nco_changed(self, widget, value):
 		vals.cb_pinc_dds2_nco=value
-		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(self.sb_poff_dds2_nco.get_value()), int(value=="true"), int(self.cb_poff_dds2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(value == "true"), int(self.cb_poff_dds2_nco.get_value()))
-		self.cb_pinc_dds2_nco.set_value(int(value=="true"))
+		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(self.sb_poff_dds2_nco.get_value()), value, int(self.cb_poff_dds2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
+		self.cb_pinc_dds2_nco.set_value(value)
 
 	def cb_poff_dds2_nco_changed(self, widget, value):
 		vals.cb_poff_dds2_nco=value
-		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(value=="true"))
-		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(value=="true"))
-		self.cb_poff_dds2_nco.set_value(int(value=="true"))
+		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(value==True))
+		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(value==True))
+		self.cb_poff_dds2_nco.set_value(int(value==True))
 
 	def sd_dds2_offset_changed(self, widget, value):
 		vals.dds2_offset=value
@@ -697,74 +697,74 @@ class MyApp(App):
 	def sd_pinc_demod1_nco_changed(self, widget, value):
 		vals.pinc_demod1_nco=value
 		print("/dev/demod1_nco", 122880000, int(value), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sb_pinc_demod1_nco.set_value(int(value))
 
 	def sb_pinc_demod1_nco_changed(self, widget, value):
 		vals.pinc_demod1_nco=value
 		print("/dev/demod1_nco", 122880000, value, 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sd_pinc_demod1_nco.set_value(value)
 
 	def sd_poff_demod1_nco_changed(self, widget, value):
 		vals.poff_demod1_nco=value
 		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sb_poff_demod1_nco.set_value(value)
 
 	def sb_poff_demod1_nco_changed(self, widget, value):
 		vals.poff_demod1_nco=value
 		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sd_poff_demod1_nco.set_value(value)
 
 	def cb_pinc_demod1_nco_changed(self, widget, value):
 		vals.cb_pinc_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(value=="true"), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(value == "true"), int(self.cb_poff_demod1_nco.get_value()))
-		self.cb_pinc_demod1_nco.set_value(int(value=="true"))
+		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(value==True), int(self.cb_poff_demod1_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(value ==True), int(self.cb_poff_demod1_nco.get_value()))
+		self.cb_pinc_demod1_nco.set_value(int(value==True))
 
 	def cb_poff_demod1_nco_changed(self, widget, value):
 		vals.cb_poff_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value=="true"))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value=="true"))
-		self.cb_poff_demod1_nco.set_value(int(value=="true"))
+		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
+		self.cb_poff_demod1_nco.set_value(int(value==True))
 
 	def sd_pinc_demod2_nco_changed(self, widget, value):
 		vals.pinc_demod2_nco=value
 		print("/dev/demod2_nco", 122880000, int(value), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
 		self.sb_pinc_demod2_nco.set_value(int(value))
 
 	def sb_pinc_demod2_nco_changed(self, widget, value):
 		vals.pinc_demod2_nco=value
 		print("/dev/demod2_nco", 122880000, value, 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
 		self.sd_pinc_demod2_nco.set_value(value)
 
 	def sd_poff_demod2_nco_changed(self, widget, value):
 		vals.poff_demod2_nco=value
 		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
 		self.sb_poff_demod2_nco.set_value(value)
 
 	def sb_poff_demod2_nco_changed(self, widget, value):
 		vals.poff_demod2_nco=value
 		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
 		self.sd_poff_demod2_nco.set_value(value)
 
 	def cb_pinc_demod2_nco_changed(self, widget, value):
 		vals.cb_pinc_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(value=="true"), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(value == "true"), int(self.cb_poff_demod2_nco.get_value()))
-		self.cb_pinc_demod2_nco.set_value(int(value=="true"))
+		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(value==True), int(self.cb_poff_demod2_nco.get_value()))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(value ==True), int(self.cb_poff_demod2_nco.get_value()))
+		self.cb_pinc_demod2_nco.set_value(int(value==True))
 
 	def cb_poff_demod2_nco_changed(self, widget, value):
 		vals.cb_poff_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value=="true"))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco".encode("utf-8"), 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value=="true"))
-		self.cb_poff_demod2_nco.set_value(int(value=="true"))
+		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
+		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
+		self.cb_poff_demod2_nco.set_value(int(value==True))
 
 	def sd_kp_pid1_changed(self, widget, value):
 		vals.kp_pid1=value
@@ -793,9 +793,9 @@ class MyApp(App):
 	def cb_rst_int_pid1_changed(self, widget, value):
 		vals.rst_int_pid1=value
 		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid1", 1)
-		print("/dev/pid1/rst_int", int(value=="true"))
-		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid1", int(value=="true"))
-		self.cb_rst_int_pid1.set_value(int(value=="true"))
+		print("/dev/pid1/rst_int", int(value==True))
+		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid1", int(value==True))
+		self.cb_rst_int_pid1.set_value(int(value==True))
 
 	def sd_sp_pid1_changed(self, widget, value):
 		vals.sp_pid1=value
@@ -848,9 +848,9 @@ class MyApp(App):
 	def cb_rst_int_pid2_changed(self, widget, value):
 		vals.rst_int_pid2=value
 		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid2", 1)
-		print("/dev/pid2/rst_int", int(value=="true"))
-		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid2", int(value=="true"))
-		self.cb_rst_int_pid2.set_value(int(value=="true"))
+		print("/dev/pid2/rst_int", int(value==True))
+		liboscimp_fpga.pidv3_axi_set_int_rst("/dev/pid2", int(value==True))
+		self.cb_rst_int_pid2.set_value(int(value==True))
 
 	def sd_sp_pid2_changed(self, widget, value):
 		vals.sp_pid2=value
