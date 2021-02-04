@@ -76,6 +76,22 @@ int DTSGenerator::generateNode(std::string drvName, XMLElement *child)
 						" subnode : " +e.what());
 			return EXIT_FAILURE;
 		}
+
+		if (childName.empty()) {
+			printError("Error: empty instance name");
+			return EXIT_FAILURE;
+		}
+
+		if (base_addr.empty()) {
+			printError("Error: missing base addr for " + childName);
+			return EXIT_FAILURE;
+		}
+
+		if (addr_size.empty()) {
+			printError("Error: missing addr size for " + childName);
+			return EXIT_FAILURE;
+		}
+
 		cut_addr = base_addr.substr(2);
 		outfile << "\t\t\t" << childName << ": " << childName << "@" << cut_addr << "{" << std::endl;
 		outfile << "\t\t\t\tcompatible = \"" << compatible << "\";" << std::endl;
