@@ -70,7 +70,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/%s",1,0xff,0x01,1)\n\n'%elem[1])
 			f.write('#Sampling frequency\n')
 			f.write('samp_freq = 250000000\n\n')
-	if ('redpitaya_converters_12' not in board_driver_array[0]) == True:
+	if ('redpitaya_converters_12' not in board_driver_array) == True:
 		f.write('#Sampling frequency\n')
 		f.write('samp_freq = 125000000\n\n')
 
@@ -472,12 +472,12 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\tdef sd_sp_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.sp_%s=value\n'%elem[1])
 			f.write('\t\tprint("/dev/%s/setpoint", int(value))\n'%elem[1])
-			f.write('\t\tliboscimp_fpga.pidv3_axi_set("/dev/%s", liboscimp_fpga.SETPOINT, int(value))\n'%elem[1])
+			f.write('\t\tliboscimp_fpga.pidv3_axi_set_setpoint("/dev/%s", int(value))\n'%elem[1])
 			f.write('\t\tself.sb_sp_%s.set_value(int(value))\n\n'%elem[1])
 			f.write('\tdef sb_sp_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.sp_%s=value\n'%elem[1])
 			f.write('\t\tprint("/dev/%s/setpoint", int(value))\n'%elem[1])
-			f.write('\t\tliboscimp_fpga.pidv3_axi_set("/dev/%s", liboscimp_fpga.SETPOINT, int(value))\n'%elem[1])
+			f.write('\t\tliboscimp_fpga.pidv3_axi_set_setpoint("/dev/%s", int(value))\n'%elem[1])
 			f.write('\t\tself.sd_sp_%s.set_value(int(float(value)))\n\n'%elem[1])
 
 			f.write('\tdef sd_sign_%s_changed(self, widget, value):\n'%elem[1])
