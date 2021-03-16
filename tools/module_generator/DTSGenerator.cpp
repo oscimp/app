@@ -185,8 +185,6 @@ int DTSGenerator::generateDTS(string outfilename)
 	} else {
 		outfile << "\t\ttarget = <&" << ((is_pluto) ? "fpga_axi" : "fpga_full") << ">;" << std::endl;
 	}
-    outfile << "\t\t#address-cells = <1>;" << std::endl;
-    outfile << "\t\t#size-cells = <1>;" << std::endl;
     outfile << "\t\t__overlay__ {" << std::endl;
     outfile << "\t\t\t#address-cells = <1>;" << std::endl;
     outfile << "\t\t\t#size-cells = <1>;" << std::endl;
