@@ -70,7 +70,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/%s",1,0xff,0x01,1)\n\n'%elem[1])
 			f.write('#Sampling frequency\n')
 			f.write('samp_freq = 250000000\n\n')
-	if ('redpitaya_converters_12' not in board_driver_array) == True:
+	if ('redpitaya_converters_12' not in board_driver_array[0]) == True:
 		f.write('#Sampling frequency\n')
 		f.write('samp_freq = 125000000\n\n')
 
@@ -617,7 +617,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.cb_poff_%s.set_value(int(value==True))\n\n'%elem[1])
 
 		if elem[0] == 'switchReal':
-			f.write('\tdef cb_%s_changed(self, widget, value):\n'%(elem[1], elem[1]))
+			f.write('\tdef cb_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
 			f.write('\t\tliboscimp_fpga.switch_send_conf("/dev/%s", 1)\n'%elem[1])
 			f.write('\t\tprint("/dev/%s", int(value==True))\n'%elem[1])
