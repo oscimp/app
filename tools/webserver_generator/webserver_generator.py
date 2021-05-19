@@ -100,7 +100,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('vals.listView_ampl2 = "DAC2\\xa02V"\n')
 			f.write('vals.listView_extref = "Int\\xa0Clock"\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn']:
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
 			f.write('vals.%s = 9\n'%elem[1])
 
 		if elem[0] == 'nco_counter':
@@ -272,7 +272,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.stop_flag = False\n')
 			f.write('\t\tself.display_extref_state()\n\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn']:
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
 			f.write('\t\tself.hbox_%s = gui.HBox(margin="10px")\n'%elem[1])
 			f.write('\t\tself.lb_%s = gui.Label("/dev/%s", width="20%%", margin="10px")\n'%(elem[1], elem[1]))
 			f.write('\t\tself.sd_%s = gui.Slider(vals.%s, -8192, 8191, 1, width="60%%", margin="10px")\n'%(elem[1], elem[1]))
@@ -368,7 +368,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.listView_extref.select_by_value(lf.listView_extref)\n')
 			f.write('\t\tliboscimp_fpga.redpitaya_converters_12_ext_ref_enable("/dev/%s" ,int(lf.listView_extref=="Ext\\xa0Ref"))\n'%elem[1])
 			f.write('\t\tvals.listView_extref=lf.listView_extref\n')
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn']:
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
 			f.write('\t\tself.sd_%s_changed(self.sd_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.sb_%s_changed(self.sb_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
 		if elem[0] == 'nco_counter':
@@ -572,7 +572,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\t\tprint("/dev/%s","Int\\xa0Clock")\n'%elem[1])
 			f.write('\t\t\tself.listView_extref.select_by_value("Int\\xa0Clock")\n\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn']:
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
 			f.write('\tdef sd_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
 			f.write('\t\tprint("/dev/%s", int(value))\n'%elem[1])
