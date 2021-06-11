@@ -109,7 +109,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('vals.cb_pinc_%s = True\n'%elem[1])
 			f.write('vals.cb_poff_%s = True\n'%elem[1])
 
-		if elem[0] == 'switchReal':
+		if elem[0] in ['switchReal', 'switchComplex'] :
 			f.write('vals.%s = True\n'%elem[1])
 
 	f.write('\nclass MyApp(App):\n')
@@ -310,7 +310,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.hbox_%s.append(self.cb_poff_%s)\n'%(elem[1], elem[1]))
 			f.write('\t\tself.w.append(self.hbox_%s)\n\n'%elem[1])
 
-		if elem[0] == 'switchReal':
+		if elem[0] in ['switchReal', 'switchComplex'] :
 			f.write('\t\tself.hbox_%s = gui.HBox(margin="10px")\n'%elem[1])
 			f.write('\t\tself.cb_%s = gui.CheckBoxLabel("%s", vals.%s, width="5%%", margin="10px")\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.cb_%s.onchange.do(self.cb_%s_changed)\n'%(elem[1], elem[1]))
@@ -378,7 +378,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.sb_poff_%s_changed(self.sb_poff_%s, lf.poff_%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.cb_pinc_%s_changed(self.cb_pinc_%s, lf.cb_pinc_%s)\n'%(elem[1], elem[1], elem[1]))
 			f.write('\t\tself.cb_poff_%s_changed(self.cb_poff_%s, lf.cb_poff_%s)\n'%(elem[1], elem[1], elem[1]))
-		if elem[0] == 'switchReal':
+		if elem[0] in ['switchReal', 'switchComplex'] :
 			f.write('\t\tself.cb_%s_changed(self.cb_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
 
 	f.write('\t\tprint("Configuration loaded")\n\n')
@@ -616,7 +616,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(self.sb_pinc_%s.get_value())), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(value==True))\n'%(elem[1], elem[1], elem[1], elem[1]))
 			f.write('\t\tself.cb_poff_%s.set_value(int(value==True))\n\n'%elem[1])
 
-		if elem[0] == 'switchReal':
+		if elem[0] in ['switchReal', 'switchComplex'] :
 			f.write('\tdef cb_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
 			f.write('\t\tliboscimp_fpga.switch_send_conf("/dev/%s", 1)\n'%elem[1])

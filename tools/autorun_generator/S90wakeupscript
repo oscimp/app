@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# mount the network drive, flash the FPGA, run the webserver, run data2ram nfs sender(s), load fir coefficients...
+#
+
+start() {
+	sh /usr/bin/launch_my_design.sh > /root/launch_err.log 1>> /root/launch_err.log 2>> /root/launch_err.log
+}
+
+stop() {
+	killall python
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit 0
