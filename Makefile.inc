@@ -71,8 +71,8 @@ install_ssh: all
 	mkdir -p /tmp/$(BASE_NAME)/bin
 	mkdir -p /tmp/$(BASE_NAME)/modules
 	cp $(CORE_MODULES_LIST) /tmp/$(BASE_NAME)/modules/
-	cp -f $(DTBO_NAME) $(EXEC_NAME) $(EXEC_NAME).sh $(SUPP_FILE) /tmp/$(BASE_NAME)/bin
-	sed -i 's/^CORE_MODULES_DIR=.*/CORE_MODULES_DIR=\.\.\/modules/g' /tmp/$(BASE_NAME)/bin/$(EXEC_NAME).sh
+	cp -f $(DTBO_NAME) $(EXEC_NAME) $(BASE_NAME)_us.sh $(SUPP_FILE) /tmp/$(BASE_NAME)/bin
+	sed -i 's/^CORE_MODULES_DIR=.*/CORE_MODULES_DIR=\.\.\/modules/g' /tmp/$(BASE_NAME)/bin/$(BASE_NAME)_us.sh
 	scp -r /tmp/$(BASE_NAME) root@$(IP):/tmp/
 
 uninstall:
