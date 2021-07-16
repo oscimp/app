@@ -77,8 +77,8 @@ sleep 2
 wget $MY_IP
 
 #### your design applications
-#screen -dmS /dev/dataReal_to_ram_fast ./my_zmq_data2ram_script.py
-#screen -dmS /dev/dataReal_to_ram_slow ./my_zmq_data2ram_script.py
+#screen -dmS dataReal_to_ram_fast ./my_zmq_data2ram_script.py
+#screen -dmS dataReal_to_ram_slow ./my_zmq_data2ram_script.py
 #./my_fir_coeff_loader_script.py /dev/firReal_0 my_fir_coeff_file.dat
 #./my_fir_coeff_loader_script.py /dev/firReal_1 my_fir_coeff_file.dat
 
