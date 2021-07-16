@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.9
+#!/usr/bin/env python
 
 from xml.dom import minidom
 import sys
@@ -44,7 +44,7 @@ with open('launch_my_design.sh', 'a') as f:
 
 	for elem in board_driver_array:
 		if elem[0] in ['dataComplex_to_ram', 'dataReal_to_ram'] :
-			f.write('#screen -dmS /dev/%s ./my_zmq_data2ram_script.py\n'%elem[1])
+			f.write('#screen -dmS %s ./my_zmq_data2ram_script.py\n'%elem[1])
 
 		if elem[0] in ['firComplex', 'firReal'] :
 			f.write('#./my_fir_coeff_loader_script.py /dev/%s my_fir_coeff_file.dat\n'%elem[1])
