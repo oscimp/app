@@ -593,8 +593,8 @@ class MyApp(App):
 	def sd_pinc_dds2_nco_changed(self, widget, value):
 		vals.pinc_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, int(value), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		self.sb_pinc_dds2_nco.set_value(int(value))
 		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
+		self.sb_pinc_dds2_nco.set_value(int(value))
 
 	def sb_pinc_dds2_nco_changed(self, widget, value):
 		vals.pinc_dds2_nco=value
@@ -605,8 +605,8 @@ class MyApp(App):
 	def sd_poff_dds2_nco_changed(self, widget, value):
 		vals.poff_dds2_nco=value
 		print("/dev/dds2_nco", 122880000, self.sb_pinc_dds2_nco.get_value(), 40, int(value), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
-		self.sb_poff_dds2_nco.set_value(value)
 		liboscimp_fpga.nco_counter_send_conf("/dev/dds2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_dds2_nco.get_value())), 40, int(self.sb_poff_dds2_nco.get_value()), int(self.cb_pinc_dds2_nco.get_value()), int(self.cb_poff_dds2_nco.get_value()))
+		self.sb_poff_dds2_nco.set_value(value)
 
 	def sb_poff_dds2_nco_changed(self, widget, value):
 		vals.poff_dds2_nco=value
@@ -694,76 +694,119 @@ class MyApp(App):
 		liboscimp_fpga.axi_to_dac_set_chan("/dev/dds_range", liboscimp_fpga.CHANB, int(value))
 		self.sd_ch2_dds_range.set_value(int(float(value)))
 
+	def set_nco_cfg(self, filename, freq_out, poff, pinc_sw, poff_sw):
+		print(filename, 122880000, int(freq_out), 40, int(poff), int(pinc_sw), int(poff_sw))
+		liboscimp_fpga.nco_counter_send_conf(filename,
+		    122880000, ctypes.c_double(int(freq_out)),
+		    40, int(poff),
+		    int(pinc_sw), int(poff_sw))
+
 	def sd_pinc_demod1_nco_changed(self, widget, value):
 		vals.pinc_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, int(value), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
+		#print("/dev/demod1_nco", 122880000, int(value), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sb_pinc_demod1_nco.set_value(int(value))
 
 	def sb_pinc_demod1_nco_changed(self, widget, value):
 		vals.pinc_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, value, 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
+		#print("/dev/demod1_nco", 122880000, value, 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
 		self.sd_pinc_demod1_nco.set_value(value)
 
 	def sd_poff_demod1_nco_changed(self, widget, value):
 		vals.poff_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
 		self.sb_poff_demod1_nco.set_value(value)
 
 	def sb_poff_demod1_nco_changed(self, widget, value):
 		vals.poff_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(value), int(self.cb_pinc_demod1_nco.get_value()), int(self.cb_poff_demod1_nco.get_value()))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
 		self.sd_poff_demod1_nco.set_value(value)
 
 	def cb_pinc_demod1_nco_changed(self, widget, value):
 		vals.cb_pinc_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(value==True), int(self.cb_poff_demod1_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(value ==True), int(self.cb_poff_demod1_nco.get_value()))
+		#print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(value==True), int(self.cb_poff_demod1_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(value ==True), int(self.cb_poff_demod1_nco.get_value()))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
 		self.cb_pinc_demod1_nco.set_value(int(value==True))
 
 	def cb_poff_demod1_nco_changed(self, widget, value):
 		vals.cb_poff_demod1_nco=value
-		print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
+		#print("/dev/demod1_nco", 122880000, self.sb_pinc_demod1_nco.get_value(), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod1_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod1_nco.get_value())), 40, int(self.sb_poff_demod1_nco.get_value()), int(self.cb_pinc_demod1_nco.get_value()), int(value==True))
+                self.set_nco_cfg("/dev/demod1_nco", vals.pinc_demod1_nco,
+                    vals.poff_demod1_nco,
+                    vals.cb_pinc_demod1_nco,vals.cb_poff_demod1_nco)
 		self.cb_poff_demod1_nco.set_value(int(value==True))
 
 	def sd_pinc_demod2_nco_changed(self, widget, value):
 		vals.pinc_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, int(value), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#print("/dev/demod2_nco", 122880000, int(value), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(int(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.sb_pinc_demod2_nco.set_value(int(value))
 
 	def sb_pinc_demod2_nco_changed(self, widget, value):
 		vals.pinc_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, value, 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#print("/dev/demod2_nco", 122880000, value, 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(value)), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.sd_pinc_demod2_nco.set_value(value)
 
 	def sd_poff_demod2_nco_changed(self, widget, value):
 		vals.poff_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.sb_poff_demod2_nco.set_value(value)
 
 	def sb_poff_demod2_nco_changed(self, widget, value):
 		vals.poff_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(value), int(self.cb_pinc_demod2_nco.get_value()), int(self.cb_poff_demod2_nco.get_value()))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.sd_poff_demod2_nco.set_value(value)
 
 	def cb_pinc_demod2_nco_changed(self, widget, value):
 		vals.cb_pinc_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(value==True), int(self.cb_poff_demod2_nco.get_value()))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(value ==True), int(self.cb_poff_demod2_nco.get_value()))
+		#print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(value==True), int(self.cb_poff_demod2_nco.get_value()))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(value ==True), int(self.cb_poff_demod2_nco.get_value()))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.cb_pinc_demod2_nco.set_value(int(value==True))
 
 	def cb_poff_demod2_nco_changed(self, widget, value):
 		vals.cb_poff_demod2_nco=value
-		print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
-		liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
+		#print("/dev/demod2_nco", 122880000, self.sb_pinc_demod2_nco.get_value(), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
+		#liboscimp_fpga.nco_counter_send_conf("/dev/demod2_nco", 122880000, ctypes.c_double(float(self.sb_pinc_demod2_nco.get_value())), 40, int(self.sb_poff_demod2_nco.get_value()), int(self.cb_pinc_demod2_nco.get_value()), int(value==True))
+                self.set_nco_cfg("/dev/demod2_nco", vals.pinc_demod2_nco,
+                    vals.poff_demod2_nco,
+                    vals.cb_pinc_demod2_nco,vals.cb_poff_demod2_nco)
 		self.cb_poff_demod2_nco.set_value(int(value==True))
 
 	def sd_kp_pid1_changed(self, widget, value):
