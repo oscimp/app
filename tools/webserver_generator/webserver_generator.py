@@ -70,9 +70,22 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/%s",1,0xff,0x01,1)\n\n'%elem[1])
 			f.write('#Sampling frequency\n')
 			f.write('samp_freq = 250000000\n\n')
-	if ('redpitaya_converters_12' not in board_driver_array[0]) == True:
-		f.write('#Sampling frequency\n')
-		f.write('samp_freq = 125000000\n\n')
+
+	try:
+		board_name = os.environ["BOARD_NAME"].lower()
+	except KeyError:
+		print("Error: missing BOARD_NAME")
+		os.sys.exit()
+
+	if board_name == "redpitaya":
+		samp_freq = 125000000
+	elif board_name == "redpitaya16":
+		samp_freq = 122880000
+	elif board_name == "redpitaya12":
+		samp_freq = 250000000
+
+	f.write('#Sampling frequency\n')
+	f.write(f"samp_freq = {samp_freq}\n\n")
 
 	f.write('vals = objectify.Element("item")\n')
 	f.write('vals.config = "%s_defconf.xml"\n'%name)
