@@ -68,8 +68,6 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/%s",1,0x18,0x1b,0)\n'%elem[1])
 			f.write('time.sleep(0.1)\n')
 			f.write('liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/%s",1,0xff,0x01,1)\n\n'%elem[1])
-			f.write('#Sampling frequency\n')
-			f.write('samp_freq = 250000000\n\n')
 
 	try:
 		board_name = os.environ["BOARD_NAME"].lower()
@@ -600,9 +598,9 @@ with open('%s_webserver.py'%name, 'a') as f:
 		if elem[0] == 'nco_counter':
 			f.write('\tdef sd_pinc_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.pinc_%s=value\n'%elem[1])
-			f.write('\t\tprint("/dev/%s", samp_freq, int(value), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(int(value)), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tself.sb_pinc_%s.set_value(int(value))\n\n'%elem[1])
+			f.write('\t\tprint("/dev/%s", samp_freq, float(value), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(value)), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tself.sb_pinc_%s.set_value(float(value))\n\n'%elem[1])
 			f.write('\tdef sb_pinc_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.pinc_%s=value\n'%elem[1])
 			f.write('\t\tprint("/dev/%s", samp_freq, value, 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
