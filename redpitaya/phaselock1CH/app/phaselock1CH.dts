@@ -1,0 +1,87 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+
+	fragment0 {
+		target = <&fpga_full>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			firmware-name = "phaselock1CH_wrapper.bit.bin";
+
+			mux_filter: mux_filter@43CE0000{
+				compatible = "ggm,switch";
+				reg = <0x43CE0000 0xffff>;
+			};
+
+			mux_ram: mux_ram@43CD0000{
+				compatible = "ggm,switch";
+				reg = <0x43CD0000 0xffff>;
+			};
+
+			dds1_f0: dds1_f0@43C50000{
+				compatible = "ggm,add_const";
+				reg = <0x43C50000 0xffff>;
+			};
+
+			dds_ampl: dds_ampl@43C20000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43C20000 0xffff>;
+			};
+
+			dds_range: dds_range@43C60000{
+				compatible = "ggm,axi_to_dac";
+				reg = <0x43C60000 0xffff>;
+			};
+
+			DataComplexFast: DataComplexFast@43C10000{
+				compatible = "ggm,dataToRam";
+				reg = <0x43C10000 0xffff>;
+			};
+
+			DemodFIR_125MSa_125MSa: DemodFIR_125MSa_125MSa@43CB0000{
+				compatible = "ggm,fir";
+				reg = <0x43CB0000 0xffff>;
+			};
+
+			DemodFIR_125MSa_25MSa: DemodFIR_125MSa_25MSa@43CA0000{
+				compatible = "ggm,fir";
+				reg = <0x43CA0000 0xffff>;
+			};
+
+			DemodFIR_25MSa_5MSa: DemodFIR_25MSa_5MSa@43C90000{
+				compatible = "ggm,fir";
+				reg = <0x43C90000 0xffff>;
+			};
+
+			dds1_nco: dds1_nco@43C30000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C30000 0xffff>;
+			};
+
+			demod1_nco: demod1_nco@43C70000{
+				compatible = "ggm,nco_counter";
+				reg = <0x43C70000 0xffff>;
+			};
+
+			pid1: pid1@43CC0000{
+				compatible = "ggm,pidv3_axi";
+				reg = <0x43CC0000 0xffff>;
+			};
+
+			mux_out_ch2: mux_out_ch2@43C40000{
+				compatible = "ggm,switch";
+				reg = <0x43C40000 0xffff>;
+			};
+
+			mux_pid: mux_pid@43C00000{
+				compatible = "ggm,switch";
+				reg = <0x43C00000 0xffff>;
+			};
+
+		};
+	};
+};
