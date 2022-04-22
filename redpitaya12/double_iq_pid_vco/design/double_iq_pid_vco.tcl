@@ -27,21 +27,75 @@ add_ip_and_conf add_constReal adc2_offset {
 	DATA_OUT_SIZE {14} }
 connect_proc adc2_offset s00_axi 0x40000
 
+# Create instance: multiplierReal_0, and set properties
+add_ip_and_conf multiplierReal multiplierReal_0 {
+	DATA1_IN_SIZE {14} \
+	DATA_OUT_SIZE {14} \
+	DATA2_IN_SIZE {16} }
+
+# Create instance: multiplierReal_1, and set properties
+add_ip_and_conf multiplierReal multiplierReal_1 {
+	DATA1_IN_SIZE {14} \
+	DATA_OUT_SIZE {14} \
+	DATA2_IN_SIZE {16} }
+
 # Create instance: convertComplexToReal_0, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_0 {
-	DATA_SIZE {14} }
+	DATA_SIZE {16} }
 
 # Create instance: convertComplexToReal_1, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_1 {
+	DATA_SIZE {16} }
+
+# Create instance: firReal_0, and set properties
+add_ip_and_conf firReal firReal_0 {
+	DATA_IN_SIZE {14} \
+	DATA_OUT_SIZE {32} \
+	DECIMATE_FACTOR {1} \
+	NB_COEFF {25} }
+connect_proc firReal_0 s00_axi 0x80000
+
+# Create instance: firReal_1, and set properties
+add_ip_and_conf firReal firReal_1 {
+	DATA_IN_SIZE {14} \
+	DATA_OUT_SIZE {32} \
+	DECIMATE_FACTOR {1} \
+	NB_COEFF {25} }
+connect_proc firReal_1 s00_axi 0x90000
+
+# Create instance: shifterReal_dyn_0, and set properties
+add_ip_and_conf shifterReal_dyn shifterReal_dyn_0 {
+	DATA_OUT_SIZE {14} }
+connect_proc shifterReal_dyn_0 s00_axi 0x20000
+
+# Create instance: shifterReal_dyn_1, and set properties
+add_ip_and_conf shifterReal_dyn shifterReal_dyn_1 {
+	DATA_OUT_SIZE {14} }
+connect_proc shifterReal_dyn_1 s00_axi 0xA0000
+
+# Create instance: dupplReal_1_to_2_1, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_1 {
+	DATA_SIZE {14} }
+
+# Create instance: dupplReal_1_to_2_2, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_2 {
+	DATA_SIZE {14} }
+
+# Create instance: dupplReal_1_to_2_4, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_4 {
+	DATA_SIZE {14} }
+
+# Create instance: dupplReal_1_to_2_3, and set properties
+add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_3 {
 	DATA_SIZE {14} }
 
 # Create instance: convertComplexToReal_4, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_4 {
-	DATA_SIZE {14} }
+	DATA_SIZE {16} }
 
 # Create instance: convertComplexToReal_5, and set properties
 add_ip_and_conf convertComplexToReal convertComplexToReal_5 {
-	DATA_SIZE {14} }
+	DATA_SIZE {16} }
 
 # Create instance: dataReal_to_ram_fast, and set properties
 add_ip_and_conf dataReal_to_ram dataReal_to_ram_fast {
@@ -137,22 +191,6 @@ connect_intf redpitaya_converters_12_0 clk_o demod2_nco ref_clk_i
 connect_intf redpitaya_converters_12_0 rst_o demod2_nco ref_rst_i
 connect_proc demod2_nco s00_axi 0x70000
 
-# Create instance: dupplReal_1_to_2_1, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_1 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_2, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_2 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_3, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_3 {
-	DATA_SIZE {14} }
-
-# Create instance: dupplReal_1_to_2_4, and set properties
-add_ip_and_conf dupplReal_1_to_2 dupplReal_1_to_2_4 {
-	DATA_SIZE {14} }
-
 # Create instance: expanderReal_2, and set properties
 add_ip_and_conf expanderReal expanderReal_2 {
 	DATA_IN_SIZE {14} \
@@ -162,22 +200,6 @@ add_ip_and_conf expanderReal expanderReal_2 {
 add_ip_and_conf expanderReal expanderReal_3 {
 	DATA_IN_SIZE {14} \
 	DATA_OUT_SIZE {19} }
-
-# Create instance: firReal_0, and set properties
-add_ip_and_conf firReal firReal_0 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {32} \
-	DECIMATE_FACTOR {1} \
-	NB_COEFF {25} }
-connect_proc firReal_0 s00_axi 0x80000
-
-# Create instance: firReal_1, and set properties
-add_ip_and_conf firReal firReal_1 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {32} \
-	DECIMATE_FACTOR {1} \
-	NB_COEFF {25} }
-connect_proc firReal_1 s00_axi 0x90000
 
 # Create instance: meanReal_0, and set properties
 add_ip_and_conf meanReal meanReal_0 {
@@ -207,42 +229,30 @@ add_ip_and_conf meanReal meanReal_3 {
 	NB_ACCUM {8192} \
 	SHIFT {13} }
 
-# Create instance: mixer_sin_0, and set properties
-add_ip_and_conf mixer_sin mixer_sin_0 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
-
-# Create instance: mixer_sin_1, and set properties
-add_ip_and_conf mixer_sin mixer_sin_1 {
-	DATA_IN_SIZE {14} \
-	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
-
-# Create instance: mixer_sin_2, and set properties
-add_ip_and_conf multiplierReal mixer_sin_2 {
+# Create instance: multiplierReal_2, and set properties
+add_ip_and_conf multiplierReal multiplierReal_2 {
 	DATA1_IN_SIZE {14} \
 	DATA_OUT_SIZE {14} \
 	DATA2_IN_SIZE {14} }
 
 
-# Create instance: mixer_sin_3, and set properties
-add_ip_and_conf multiplierReal mixer_sin_3 {
+# Create instance: multiplierReal_3, and set properties
+add_ip_and_conf multiplierReal multiplierReal_3 {
 	DATA1_IN_SIZE {14} \
 	DATA_OUT_SIZE {14} \
 	DATA2_IN_SIZE {14} }
 
-# Create instance: mixer_sin_4, and set properties
-add_ip_and_conf mixer_sin mixer_sin_4 {
-	DATA_IN_SIZE {14} \
+# Create instance: multiplierReal_4, and set properties
+add_ip_and_conf multiplierReal multiplierReal_4 {
+	DATA1_IN_SIZE {14} \
 	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
+	DATA2_IN_SIZE {16} }
 
-# Create instance: mixer_sin_5, and set properties
-add_ip_and_conf mixer_sin mixer_sin_5 {
-	DATA_IN_SIZE {14} \
+# Create instance: multiplierReal_5, and set properties
+add_ip_and_conf multiplierReal multiplierReal_5 {
+	DATA1_IN_SIZE {14} \
 	DATA_OUT_SIZE {14} \
-	NCO_SIZE {16} }
+	DATA2_IN_SIZE {16} }
 
 # Create instance: pidv3_axi_0, and set properties
 add_ip_and_conf pidv3_axi pidv3_axi_0 {
@@ -270,41 +280,28 @@ add_ip_and_conf shifterReal shifterReal_3 {
 	DATA_IN_SIZE {19} \
 	DATA_OUT_SIZE {40} }
 
-# Create instance: shifterReal_dyn_0, and set properties
-add_ip_and_conf shifterReal_dyn shifterReal_dyn_0 {
-	DATA_OUT_SIZE {14} }
-connect_proc shifterReal_dyn_0 s00_axi 0x20000
-
-# Create instance: shifterReal_dyn_1, and set properties
-add_ip_and_conf shifterReal_dyn shifterReal_dyn_1 {
-	DATA_OUT_SIZE {14} }
-connect_proc shifterReal_dyn_1 s00_axi 0xA0000
-
 # Create interface connections
 connect_proc_rst redpitaya_converters_12_0 adc_rst_i
 
-#connect_intf dds_range dataB_rst_o mixer_sin_3 nco_rst_i
-connect_intf adc1_offset data_out mixer_sin_0 data_in
-connect_intf adc2_offset data_out mixer_sin_1 data_in
-connect_intf convertComplexToReal_0 dataI_out firReal_0 data_in
-connect_intf convertComplexToReal_1 dataI_out firReal_1 data_in
-
-connect_intf mixer_sin_2 data_out expanderReal_2 data_in
+#connect_intf dds_range dataB_rst_o multiplierReal_3 nco_rst_i
+connect_intf adc1_offset data_out multiplierReal_0 data1_in
+connect_intf adc2_offset data_out multiplierReal_1 data1_in
+connect_intf convertComplexToReal_0 dataI_out multiplierReal_0 data2_in
+connect_intf convertComplexToReal_1 dataI_out multiplierReal_1 data2_in
+connect_intf multiplierReal_2 data_out expanderReal_2 data_in
 connect_intf expanderReal_2 data_out shifterReal_3 data_in
-connect_intf mixer_sin_3 data_out expanderReal_3 data_in
+connect_intf multiplierReal_3 data_out expanderReal_3 data_in
 connect_intf expanderReal_3 data_out shifterReal_2 data_in
-
 connect_intf expanderReal_0 data_in redpitaya_converters_12_0 dataA_out
 connect_intf expanderReal_1 data_in redpitaya_converters_12_0 dataB_out
-
-connect_intf convertComplexToReal_4 dataI_out dds1_offset data_in
-connect_intf convertComplexToReal_5 dataI_out dds2_offset data_in
-connect_intf dds1_nco sine_out mixer_sin_4 nco_in
+connect_intf convertComplexToReal_4 dataI_out multiplierReal_4 data2_in
+connect_intf convertComplexToReal_5 dataI_out multiplierReal_5 data2_in
+connect_intf dds1_nco sine_out convertComplexToReal_4 data_in
 connect_intf dds1_offset data_out redpitaya_converters_12_0 dataA_in
-connect_intf dds2_nco sine_out mixer_sin_5 nco_in
+connect_intf dds2_nco sine_out convertComplexToReal_5 data_in
 connect_intf dds2_offset data_out redpitaya_converters_12_0 dataB_in
-connect_intf dds_ampl dataA_out mixer_sin_4 data_in
-connect_intf dds_ampl dataB_out mixer_sin_5 data_in
+connect_intf dds_ampl dataA_out multiplierReal_4 data1_in
+connect_intf dds_ampl dataB_out multiplierReal_5 data1_in
 connect_intf dupplReal_1_to_2_1 data1_out pidv3_axi_0 data_in
 connect_intf dupplReal_1_to_2_1 data2_out dupplReal_1_to_2_4 data_in
 connect_intf dupplReal_1_to_2_2 data1_out dupplReal_1_to_2_3 data_in
@@ -319,16 +316,16 @@ connect_intf dataReal_to_ram_fast data1_in meanReal_0 data_out
 connect_intf dataReal_to_ram_fast data2_in meanReal_1 data_out
 connect_intf dataReal_to_ram_slow data1_in meanReal_2 data_out
 connect_intf dataReal_to_ram_slow data2_in meanReal_3 data_out
-connect_intf convertComplexToReal_0 data_in mixer_sin_0 data_out
-connect_intf convertComplexToReal_1 data_in mixer_sin_1 data_out
-connect_intf convertComplexToReal_4 data_in mixer_sin_4 data_out
-connect_intf convertComplexToReal_5 data_in mixer_sin_5 data_out
-connect_intf demod1_nco sine_out mixer_sin_0 nco_in
-connect_intf demod2_nco sine_out mixer_sin_1 nco_in
-connect_intf mixer_sin_2 data1_in pidv3_axi_0 data_out
-connect_intf dds_range dataA_out mixer_sin_2 data2_in
-connect_intf mixer_sin_3 data1_in pidv3_axi_1 data_out
-connect_intf dds_range dataB_out mixer_sin_3 data2_in
+connect_intf convertComplexToReal_0 data_in demod1_nco sine_out
+connect_intf convertComplexToReal_1 data_in demod2_nco sine_out
+connect_intf multiplierReal_4 data_out dds1_offset data_in
+connect_intf multiplierReal_5 data_out dds2_offset data_in
+connect_intf multiplierReal_0 data_out firReal_0 data_in
+connect_intf multiplierReal_1 data_out firReal_1 data_in
+connect_intf multiplierReal_2 data1_in pidv3_axi_0 data_out
+connect_intf dds_range dataA_out multiplierReal_2 data2_in
+connect_intf multiplierReal_3 data1_in pidv3_axi_1 data_out
+connect_intf dds_range dataB_out multiplierReal_3 data2_in
 connect_intf adc1_offset data_in expanderReal_0 data_out
 connect_intf adc2_offset data_in expanderReal_1 data_out
 connect_intf dds1_nco pinc_in dds1_f0 data_out

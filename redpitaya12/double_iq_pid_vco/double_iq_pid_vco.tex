@@ -1,0 +1,230 @@
+
+
+\documentclass[convert={density=500,size=2500x2000,outext=.png}]{standalone}
+
+
+\usepackage[T1]{fontenc}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[french]{babel}
+
+\usepackage{tikz}
+
+\usetikzlibrary{calc,trees,patterns,positioning,decorations.pathreplacing,shapes}
+\definecolor{OliveGreen}{rgb}{0,0.6,0}
+\usepackage{amsmath,amsfonts} 
+
+
+\begin{document}
+
+
+\begin{tikzpicture}
+
+\tikzstyle{mirror}=[fill,pattern=north east lines,draw=none,minimum width=0.75cm,minimum height=0.3cm]
+
+
+\node [] (pd1) {};
+
+
+\node[draw, rectangle, minimum size=.6cm, right of=pd1, xshift=2em] (plus1) {$+$};
+\node[draw=none, above of=plus1, yshift=-1em] {{\color{OliveGreen}adc1\_offset}};
+
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=-0.3em] pd1.north) node [draw, black, xshift=2em, rotate=180, fill, signal]{} -- (plus1);
+
+\node[draw, circle, minimum size=0.6cm, yshift=0em, right of=plus1] (mix1) {};
+\draw [-] (mix1.south west) -- (mix1.north east);
+\draw [-] (mix1.south east) -- (mix1.north west);
+
+\draw [->,>=stealth,line width=2pt,blue] (plus1) -- (mix1);
+
+\node[draw, rectangle, minimum size=0.6cm, above of=mix1, yshift=0.6em] (dat) {$\mathbb{C}$2$\mathbb{R}$};
+
+\node [circle, draw ,minimum size=.7cm, above of=dat, yshift=0.5em] (osc1) {};
+\draw ([xshift=-0.3cm] osc1.center) sin ([xshift=-0.15cm, yshift=-0.15cm] osc1.center) cos (osc1.center) sin ([xshift=0.15cm, yshift=0.15cm] osc1.center) cos ([xshift=0.3cm] osc1.center);
+\node[draw=none, above of=osc1, yshift=-1em] {{\color{OliveGreen}demod1\_nco}};
+
+\draw [->,>=stealth,line width=2pt,blue] (dat) -- (mix1);
+\draw [->,>=stealth,line width=2pt,blue] (osc1) -- (dat);
+
+\node[draw, rectangle, minimum size=.6cm,  right of=mix1] (fir) {};
+\node[draw=none, below of=fir, yshift=1em] {{\color{OliveGreen}demod1\_fir}};
+\draw [-, line width=1pt, color=black!60!green, rounded corners] ([xshift=.05cm,yshift=-.2cm] fir.north west) -| ([xshift=-.2cm,yshift=+.2cm] fir.south east);
+\draw [->,>=stealth, line width=1pt, color=black!60!green] ([xshift=-.1cm,yshift=-.15cm] fir.north east) -- ([xshift=-.1cm,yshift=+.15cm] fir.south east);
+\draw [->,>=stealth,line width=2pt,blue] (mix1) -- (fir);
+
+\node[draw, rectangle, minimum size=.6cm, right of=fir, xshift=1em] (sh) {{\color{OliveGreen}dyn-sh1}};
+\draw [->,>=stealth,line width=2pt,blue] (fir) -- (sh);
+
+\node[draw, rectangle, minimum size=.6cm, right of=sh, xshift=1em] (spl) {};
+\draw [-,line width=2pt,blue] (spl.west) -- (spl.center);
+\draw [-,line width=2pt,blue] (spl.center) -- ([yshift=-0.04cm] spl.north east);
+\draw [-,line width=2pt,blue] (spl.center) -- ([yshift=+0.04cm] spl.south east);
+\draw [-,>=stealth,line width=2pt,blue] (sh) -- (spl);
+
+\node[draw, rectangle, right of=spl, xshift=0em, yshift=0.27cm] (pi) {{\color{OliveGreen}PI1}};
+
+\node[draw, rectangle, minimum size=.6cm, right of=spl, yshift=-2.5em] (plus1) {$\sum~2^n$};
+\draw [->,>=stealth, line width=1pt] ([xshift=-.65cm,yshift=-.15cm] plus1.north east) -- ([xshift=-.65cm,yshift=+.15cm] plus1.south east);
+
+\node[draw, rectangle, minimum size=0.8cm, below of=plus1, yshift=-0.5em, xshift=0em] (dat2r) {Data2Ram};
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=0.04cm] spl.south east) -| (plus1);
+\draw [->,>=stealth,line width=2pt,blue] (plus1) -- (dat2r);
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=-0.04cm] spl.north east) -- (pi);
+
+\node[draw, circle, minimum size=0.6cm, xshift=0em, right of=pi] (mix11) {};
+\draw [-] (mix11.south west) -- (mix11.north east);
+\draw [-] (mix11.south east) -- (mix11.north west);
+
+\draw [->,>=stealth,line width=2pt,blue] (pi) -- (mix11);
+
+\node[draw, rectangle, minimum size=.6cm, above of=mix11] (ax) {\textbf{$\lambda$}};
+\node[draw=none, above of=ax, xshift=-0.0em, yshift=-1em] {{\color{OliveGreen}PI1\_range}};
+
+\draw [->,>=stealth,line width=2pt,blue] (ax) -- (mix11);
+
+\node[draw, rectangle, minimum size=.6cm, right of=mix11, xshift=0.1cm] (sh) {exp};
+\node[draw, rectangle, minimum size=.6cm, right of=sh, xshift=0.2cm] (exp) {sh};
+
+\node[draw, rectangle, minimum size=.6cm, right of=exp, xshift=0.1cm] (f0) {$+$};
+\node[draw=none, above of=f0, xshift=-0em, yshift=-1em] {{\color{OliveGreen}dds1\_f0}};
+
+\draw [->,>=stealth,line width=2pt,blue] (mix11) -- (sh);
+\draw [->,>=stealth,line width=2pt,blue] (sh) -- (exp);
+\draw [->,>=stealth,line width=2pt,blue] (exp) -- (f0);
+
+\node [circle, draw ,minimum size=.7cm, xshift=0.5em, right of=f0] (osc2) {};
+\draw ([xshift=-0.3cm] osc2.center) sin ([xshift=-0.15cm, yshift=-0.15cm] osc2.center) cos (osc2.center) sin ([xshift=0.15cm, yshift=0.15cm] osc2.center) cos ([xshift=0.3cm] osc2.center);
+\node[draw=none, below of=osc2, yshift=1em] {{\color{OliveGreen}dds1\_nco}};
+
+\node[draw, rectangle, minimum size=0.6cm, right of=osc2, xshift=0.9em] (dat2) {$\mathbb{C}$2$\mathbb{R}$};
+
+\draw [->,>=stealth,line width=2pt,blue] (f0) -- (osc2);
+
+\node[draw, circle, minimum size=0.6cm, xshift=0.7em, right of=dat2] (mix12) {};
+\draw [-] (mix12.south west) -- (mix12.north east);
+\draw [-] (mix12.south east) -- (mix12.north west);
+
+\node[draw, rectangle, minimum size=.6cm, above of=mix12] (ax2) {\textbf{$\lambda$}};
+\node[draw=none, above of=ax2, yshift=-1em] {{\color{OliveGreen}dds1\_ampl}};
+
+\draw [->,>=stealth,line width=2pt,blue] (osc2) -- (dat2);
+\draw [->,>=stealth,line width=2pt,blue] (dat2) -- (mix12);
+\draw [->,>=stealth,line width=2pt,blue] (ax2) -- (mix12);
+
+\node[draw, rectangle, minimum size=.6cm, right of=mix12] (dac) {$+$};
+\node[draw=none, below of=dac, yshift=1em] {{\color{OliveGreen}dac1\_offset}};
+
+\draw [->,>=stealth,line width=2pt,blue] (mix12) -- (dac);
+
+\node[right of=mix12, xshift=5em] (aom1) {};
+
+\draw [->,>=stealth,line width=2pt,blue] (dac) -- node [draw, black, yshift=0em, rotate=0, fill, signal]{} (aom1);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\node [below of=pd1, yshift=-8.8em] (pd2) {};
+
+
+\node[draw, rectangle, minimum size=.6cm, right of=pd2, xshift=2em] (plus1) {$+$};
+\node[draw=none, above of=plus1, yshift=-1em] {{\color{OliveGreen}adc2\_offset}};
+
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=-0.3em] pd2.north) node [draw, black, xshift=2em, rotate=180, fill, signal]{} -- (plus1);
+
+\node[draw, circle, minimum size=0.6cm, yshift=0em, right of=plus1] (mix1) {};
+\draw [-] (mix1.south west) -- (mix1.north east);
+\draw [-] (mix1.south east) -- (mix1.north west);
+
+\draw [->,>=stealth,line width=2pt,blue] (plus1) -- (mix1);
+
+\node[draw, rectangle, minimum size=0.6cm, below of=mix1, yshift=-0.6em] (dat) {$\mathbb{C}$2$\mathbb{R}$};
+
+\node [circle, draw ,minimum size=.7cm, below of=dat, yshift=-0.5em] (osc1) {};
+\draw ([xshift=-0.3cm] osc1.center) sin ([xshift=-0.15cm, yshift=-0.15cm] osc1.center) cos (osc1.center) sin ([xshift=0.15cm, yshift=0.15cm] osc1.center) cos ([xshift=0.3cm] osc1.center);
+\node[draw=none, below of=osc1, yshift=1em] {{\color{OliveGreen}demod2\_nco}};
+
+\draw [->,>=stealth,line width=2pt,blue] (dat) -- (mix1);
+\draw [->,>=stealth,line width=2pt,blue] (osc1) -- (dat);
+
+\node[draw, rectangle, minimum size=.6cm,  right of=mix1] (fir) {};
+\node[draw=none, below of=fir, yshift=1em] {{\color{OliveGreen}demod2\_fir}};
+\draw [-, line width=1pt, color=black!60!green, rounded corners] ([xshift=.05cm,yshift=-.2cm] fir.north west) -| ([xshift=-.2cm,yshift=+.2cm] fir.south east);
+\draw [->,>=stealth, line width=1pt, color=black!60!green] ([xshift=-.1cm,yshift=-.15cm] fir.north east) -- ([xshift=-.1cm,yshift=+.15cm] fir.south east);
+\draw [->,>=stealth,line width=2pt,blue] (mix1) -- (fir);
+
+\node[draw, rectangle, minimum size=.6cm, right of=fir, xshift=1em] (sh) {{\color{OliveGreen}dyn-sh2}};
+\draw [->,>=stealth,line width=2pt,blue] (fir) -- (sh);
+
+\node[draw, rectangle, minimum size=.6cm, right of=sh, xshift=1em] (spl) {};
+\draw [-,line width=2pt,blue] (spl.west) -- (spl.center);
+\draw [-,line width=2pt,blue] (spl.center) -- ([yshift=-0.04cm] spl.north east);
+\draw [-,line width=2pt,blue] (spl.center) -- ([yshift=+0.04cm] spl.south east);
+\draw [-,>=stealth,line width=2pt,blue] (sh) -- (spl);
+
+\node[draw, rectangle, right of=spl, xshift=0em, yshift=-0.27cm] (pi) {{\color{OliveGreen}PI2}};
+
+\node[draw, rectangle, minimum size=.6cm, right of=spl, yshift=+2.5em] (plus1) {$\sum~2^n$};
+\draw [->,>=stealth, line width=1pt] ([xshift=-.65cm,yshift=-.15cm] plus1.north east) -- ([xshift=-.65cm,yshift=+.15cm] plus1.south east);
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=-0.04cm] spl.north east) -| (plus1);
+\draw [->,>=stealth,line width=2pt,blue] (plus1) -- (dat2r);
+
+\draw [->,>=stealth,line width=2pt,blue] ([yshift=0.04cm] spl.south east) -- (pi);
+
+\node[draw, circle, minimum size=0.6cm, xshift=0em, right of=pi] (mix11) {};
+\draw [-] (mix11.south west) -- (mix11.north east);
+\draw [-] (mix11.south east) -- (mix11.north west);
+
+\draw [->,>=stealth,line width=2pt,blue] (pi) -- (mix11);
+
+\node[draw, rectangle, minimum size=.6cm, below of=mix11] (ax) {\textbf{$\lambda$}};
+\node[draw=none, below of=ax, xshift=-0.0em, yshift=1em] {{\color{OliveGreen}PI2\_range}};
+
+\draw [->,>=stealth,line width=2pt,blue] (ax) -- (mix11);
+
+\node[draw, rectangle, minimum size=.6cm, right of=mix11, xshift=0.1cm] (sh) {exp};
+\node[draw, rectangle, minimum size=.6cm, right of=sh, xshift=0.2cm] (exp) {sh};
+
+\node[draw, rectangle, minimum size=.6cm, right of=exp, xshift=0.1cm] (f0) {$+$};
+\node[draw=none, below of=f0, xshift=-0em, yshift=1em] {{\color{OliveGreen}dds2\_f0}};
+
+\draw [->,>=stealth,line width=2pt,blue] (mix11) -- (sh);
+\draw [->,>=stealth,line width=2pt,blue] (sh) -- (exp);
+\draw [->,>=stealth,line width=2pt,blue] (exp) -- (f0);
+
+
+\node [circle, draw ,minimum size=.7cm, xshift=0.5em, right of=f0] (osc2) {};
+\draw ([xshift=-0.3cm] osc2.center) sin ([xshift=-0.15cm, yshift=-0.15cm] osc2.center) cos (osc2.center) sin ([xshift=0.15cm, yshift=0.15cm] osc2.center) cos ([xshift=0.3cm] osc2.center);
+\node[draw=none, above of=osc2, yshift=-1em] {{\color{OliveGreen}dds2\_nco}};
+
+\node[draw, rectangle, minimum size=0.6cm, right of=osc2, xshift=0.9em] (dat2) {$\mathbb{C}$2$\mathbb{R}$};
+
+\draw [->,>=stealth,line width=2pt,blue] (f0) -- (osc2);
+
+\node[draw, circle, minimum size=0.6cm, xshift=0.7em, right of=dat2] (mix12) {};
+\draw [-] (mix12.south west) -- (mix12.north east);
+\draw [-] (mix12.south east) -- (mix12.north west);
+
+\node[draw, rectangle, minimum size=.6cm, below of=mix12] (ax2) {\textbf{$\lambda$}};
+\node[draw=none, below of=ax2, yshift=1em] {{\color{OliveGreen}dds2\_ampl}};
+
+\draw [->,>=stealth,line width=2pt,blue] (osc2) -- (dat2);
+\draw [->,>=stealth,line width=2pt,blue] (dat2) -- (mix12);
+\draw [->,>=stealth,line width=2pt,blue] (ax2) -- (mix12);
+
+\node[draw, rectangle, minimum size=.6cm, right of=mix12] (dac) {$+$};
+\node[draw=none, above of=dac, yshift=-1em] {{\color{OliveGreen}dac2\_offset}};
+
+\draw [->,>=stealth,line width=2pt,blue] (mix12) -- (dac);
+
+\node[right of=mix12, xshift=5em] (aom1) {};
+
+\draw [->,>=stealth,line width=2pt,blue] (dac) -- node [draw, black, yshift=0em, rotate=0, fill, signal]{} (aom1);
+
+\end{tikzpicture}
+
+\end{document}

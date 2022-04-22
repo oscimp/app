@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="phaselock1CH" version="1.0">
+	<ips>
+		<ip name ="MUXcomplexNto1" >
+			<instance name="mux_filter" id="0"
+				base_addr="0x43CE0000" addr_size="0xffff" />
+			<instance name="mux_ram" id="1"
+				base_addr="0x43CD0000" addr_size="0xffff" />
+		</ip>
+		<ip name ="add_constReal" >
+			<instance name="dds1_f0" id="0"
+				base_addr="0x43C50000" addr_size="0xffff" />
+		</ip>
+		<ip name ="axi_to_dac" >
+			<instance name="dds_ampl" id="0"
+				base_addr="0x43C20000" addr_size="0xffff" />
+			<instance name="dds_range" id="1"
+				base_addr="0x43C60000" addr_size="0xffff" />
+		</ip>
+		<ip name ="dataComplex_to_ram" >
+			<instance name="DataComplexFast" id="0"
+				base_addr="0x43C10000" addr_size="0xffff" />
+		</ip>
+		<ip name ="firComplex" >
+			<instance name="DemodFIR_125MSa_125MSa" id="0"
+				base_addr="0x43CB0000" addr_size="0xffff" />
+			<instance name="DemodFIR_125MSa_25MSa" id="1"
+				base_addr="0x43CA0000" addr_size="0xffff" />
+			<instance name="DemodFIR_25MSa_5MSa" id="2"
+				base_addr="0x43C90000" addr_size="0xffff" />
+		</ip>
+		<ip name ="nco_counter" >
+			<instance name="dds1_nco" id="0"
+				base_addr="0x43C30000" addr_size="0xffff" />
+			<instance name="demod1_nco" id="1"
+				base_addr="0x43C70000" addr_size="0xffff" />
+		</ip>
+		<ip name ="pidv3_axi" >
+			<instance name="pid1" id="0"
+				base_addr="0x43CC0000" addr_size="0xffff" />
+		</ip>
+		<ip name ="MUXrealNto1" >
+			<instance name="mux_out_ch2" id="0"
+				base_addr="0x43C40000" addr_size="0xffff" />
+			<instance name="mux_pid" id="1"
+				base_addr="0x43C00000" addr_size="0xffff" />
+		</ip>
+	</ips>
+</project>
