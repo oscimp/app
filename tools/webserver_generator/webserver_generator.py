@@ -79,14 +79,39 @@ with open('%s_webserver.py'%name, 'a') as f:
 		samp_freq = 125000000
 	elif board_name == "redpitaya16":
 		samp_freq = 122880000
+	elif board_name == "plutosdr":
+		samp_freq = 20000000
+		rx_lo = 1545520000
+		tx_lo = 1545520000
 	elif board_name == "redpitaya12":
 		samp_freq = 250000000
+	elif board_name == "zedboard":
+		samp_freq = 100000000
+
+	if board_name == "plutosdr":
+		f.write('import iio\n\n')
+		f.write('ctx = iio.Context()\n')
+		f.write('dev_rx = ctx.find_device("cf-ad9361-lpc")\n')
+		f.write('dev_tx = ctx.find_device("cf-ad9361-dds-core-lpc")\n')
+		f.write('phy = ctx.find_device("ad9361-phy")\n\n')
+		f.write(f'[i for i in phy.channels if i.id == "altvoltage0"][0].attrs["frequency"].value = "{rx_lo}"\n')
+		f.write(f'[i for i in phy.channels if i.id == "altvoltage1"][0].attrs["frequency"].value = "{tx_lo}"\n\n')
+		f.write(f'[i for i in phy.channels if i.id == "voltage0"][0].attrs["sampling_frequency"].value = "{samp_freq}"\n\n')
+		f.write('[i for i in dev_rx.channels if i.id == "voltage0"][0].enabled = True\n')
+		f.write('[i for i in dev_rx.channels if i.id == "voltage1"][0].enabled = True\n\n')
+		f.write('[i for i in dev_tx.channels if i.id == "voltage0"][0].enabled = True\n')
+		f.write('[i for i in dev_tx.channels if i.id == "voltage1"][0].enabled = True\n\n')
 
 	f.write('#Sampling frequency\n')
 	f.write(f"samp_freq = {samp_freq}\n\n")
 
 	f.write('vals = objectify.Element("item")\n')
 	f.write('vals.config = "%s_defconf.xml"\n'%name)
+
+	if board_name == "plutosdr":
+		f.write('vals.tx_lo = 1000000000\n')
+		f.write('vals.rx_lo = 1000000000\n')
+
 	for elem in board_driver_array:
 		if elem[0] == 'add_constReal':
 			f.write('vals.%s = 0\n'%elem[1])
@@ -143,6 +168,31 @@ with open('%s_webserver.py'%name, 'a') as f:
 	f.write('\t\tself.hbox_save_load.append(self.bt_load)\n')
 	f.write('\t\tself.hbox_save_load.append(self.bt_save)\n')
 	f.write('\t\tself.w.append(self.hbox_save_load)\n\n')
+
+	if board_name == "plutosdr":
+		f.write('\t\tself.hbox_tx_lo = gui.HBox(margin="10px")\n')
+		f.write('\t\tself.lb_tx_lo = gui.Label("iio:tx_lo", width="20%%", margin="10px")\n')
+		f.write('\t\tself.sd_tx_lo = gui.Slider(vals.tx_lo, 0, 7000000000, 1000000, width="60%%", margin="10px")\n')
+		f.write('\t\tself.sd_tx_lo.set_on_change_listener(self.sd_tx_lo_changed)\n')
+		f.write('\t\tself.sb_tx_lo = gui.SpinBox(vals.tx_lo, 0, 7000000000, 1000000, width="20%%", margin="10px")\n')
+		f.write('\t\tself.sb_tx_lo.set_on_change_listener(self.sb_tx_lo_changed)\n')
+		f.write('\t\tself.sd_tx_lo_changed(self.sd_tx_lo, self.sd_tx_lo.get_value())\n')
+		f.write('\t\tself.hbox_tx_lo.append(self.lb_tx_lo)\n')
+		f.write('\t\tself.hbox_tx_lo.append(self.sd_tx_lo)\n')
+		f.write('\t\tself.hbox_tx_lo.append(self.sb_tx_lo)\n')
+		f.write('\t\tself.w.append(self.hbox_tx_lo)\n\n')
+
+		f.write('\t\tself.hbox_rx_lo = gui.HBox(margin="10px")\n')
+		f.write('\t\tself.lb_rx_lo = gui.Label("iio:rx_lo", width="20%%", margin="10px")\n')
+		f.write('\t\tself.sd_rx_lo = gui.Slider(vals.rx_lo, 0, 7000000000, 1, width="60%%", margin="10px")\n')
+		f.write('\t\tself.sd_rx_lo.set_on_change_listener(self.sd_rx_lo_changed)\n')
+		f.write('\t\tself.sb_rx_lo = gui.SpinBox(vals.rx_lo, 0, 7000000000, 1, width="20%%", margin="10px")\n')
+		f.write('\t\tself.sb_rx_lo.set_on_change_listener(self.sb_rx_lo_changed)\n')
+		f.write('\t\tself.sd_rx_lo_changed(self.sd_rx_lo, self.sd_rx_lo.get_value())\n')
+		f.write('\t\tself.hbox_rx_lo.append(self.lb_rx_lo)\n')
+		f.write('\t\tself.hbox_rx_lo.append(self.sd_rx_lo)\n')
+		f.write('\t\tself.hbox_rx_lo.append(self.sb_rx_lo)\n')
+		f.write('\t\tself.w.append(self.hbox_rx_lo)\n\n')
 
 	for elem in board_driver_array:
 		print('%s\t%s'%(elem[1], elem[0]))
@@ -338,6 +388,13 @@ with open('%s_webserver.py'%name, 'a') as f:
 	f.write('\t\twith open(str(vals.config), "r") as f:\n')
 	f.write('\t\t\t lf = objectify.fromstring(f.read())\n\n')
 
+	if board_name == "plutosdr":
+		f.write('\t\tself.sd_tx_lo_changed(self.sd_tx_lo, lf.tx_lo)\n')
+		f.write('\t\tself.sb_tx_lo_changed(self.sb_tx_lo, lf.tx_lo)\n')
+
+		f.write('\t\tself.sd_rx_lo_changed(self.sd_rx_lo, lf.rx_lo)\n')
+		f.write('\t\tself.sb_rx_lo_changed(self.sb_rx_lo, lf.rx_lo)\n')
+
 	for elem in board_driver_array:
 		if elem[0] == 'add_constReal':
 			f.write('\t\tself.sd_%s_changed(self.sd_%s, lf.%s)\n'%(elem[1], elem[1], elem[1]))
@@ -402,6 +459,28 @@ with open('%s_webserver.py'%name, 'a') as f:
 	f.write('\t\t\tf.write(lxml.etree.tostring(vals, pretty_print=True))\n')
 	f.write('\t\tprint("Saved")\n\n')
 
+	if board_name == "plutosdr":
+		f.write('\tdef sd_tx_lo_changed(self, widget, value):\n')
+		f.write('\t\tvals.tx_lo=value\n')
+		f.write('\t\tprint("iio:tx_lo", int(value))\n')
+		f.write('\t\t[i for i in phy.channels if i.id == "altvoltage1"][0].attrs["frequency"].value = value\n')
+		f.write('\t\tself.sb_tx_lo.set_value(int(value))\n\n')
+		f.write('\tdef sb_tx_lo_changed(self, widget, value):\n')
+		f.write('\t\tvals.tx_lo=value\n')
+		f.write('\t\tprint("iio:tx_lo", int(value))\n')
+		f.write('\t\t[i for i in phy.channels if i.id == "altvoltage1"][0].attrs["frequency"].value = value\n')
+		f.write('\t\tself.sd_tx_lo.set_value(int(float(value)))\n\n')
+
+		f.write('\tdef sd_rx_lo_changed(self, widget, value):\n')
+		f.write('\t\tvals.rx_lo=value\n')
+		f.write('\t\tprint("iio:rx_lo", int(value))\n')
+		f.write('\t\t[i for i in phy.channels if i.id == "altvoltage0"][0].attrs["frequency"].value = value\n')
+		f.write('\t\tself.sb_rx_lo.set_value(int(value))\n\n')
+		f.write('\tdef sb_rx_lo_changed(self, widget, value):\n')
+		f.write('\t\tvals.rx_lo=value\n')
+		f.write('\t\tprint("iio:rx_lo", int(value))\n')
+		f.write('\t\t[i for i in phy.channels if i.id == "altvoltage0"][0].attrs["frequency"].value = value\n')
+		f.write('\t\tself.sd_rx_lo.set_value(int(float(value)))\n\n')
 
 	for elem in board_driver_array:
 		if elem[0] == 'add_constReal':
@@ -476,9 +555,9 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\tdef cb_rst_int_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.rst_int_%s=value\n'%elem[1])
 			f.write('\t\tliboscimp_fpga.pidv3_axi_set_int_rst("/dev/%s", 1)\n'%elem[1])
-			f.write('\t\tprint("/dev/%s/rst_int", int(value==True))\n'%elem[1])
-			f.write('\t\tliboscimp_fpga.pidv3_axi_set_int_rst("/dev/%s", int(value==True))\n'%elem[1])
-			f.write('\t\tself.cb_rst_int_%s.set_value(int(value==True))\n\n'%elem[1])
+			f.write('\t\tprint("/dev/%s/rst_int", int(value=="true"))\n'%elem[1])
+			f.write('\t\tliboscimp_fpga.pidv3_axi_set_int_rst("/dev/%s", int(value=="true"))\n'%elem[1])
+			f.write('\t\tself.cb_rst_int_%s.set_value(int(value=="true"))\n\n'%elem[1])
 
 			f.write('\tdef sd_sp_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.sp_%s=value\n'%elem[1])
@@ -618,24 +697,27 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('\t\tself.sd_poff_%s.set_value(value)\n\n'%elem[1])
 			f.write('\tdef cb_pinc_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.cb_pinc_%s=value\n'%elem[1])
-			f.write('\t\tprint("/dev/%s", samp_freq, self.sb_pinc_%s.get_value(), 40, int(self.sb_poff_%s.get_value()), int(value==True), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(self.sb_pinc_%s.get_value())), 40, int(self.sb_poff_%s.get_value()), int(value == True), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tself.cb_pinc_%s.set_value(int(value==True))\n\n'%elem[1])
+			f.write('\t\tprint("/dev/%s", samp_freq, self.sb_pinc_%s.get_value(), 40, int(self.sb_poff_%s.get_value()), int(value=="true"), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(self.sb_pinc_%s.get_value())), 40, int(self.sb_poff_%s.get_value()), int(value=="true"), int(self.cb_poff_%s.get_value()))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tself.cb_pinc_%s.set_value(int(value=="true"))\n\n'%elem[1])
 			f.write('\tdef cb_poff_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.cb_poff_%s=value\n'%elem[1])
-			f.write('\t\tprint("/dev/%s", samp_freq, self.sb_pinc_%s.get_value(), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(value==True))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(self.sb_pinc_%s.get_value())), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(value==True))\n'%(elem[1], elem[1], elem[1], elem[1]))
-			f.write('\t\tself.cb_poff_%s.set_value(int(value==True))\n\n'%elem[1])
+			f.write('\t\tprint("/dev/%s", samp_freq, self.sb_pinc_%s.get_value(), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(value=="true"))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tliboscimp_fpga.nco_counter_send_conf("/dev/%s", samp_freq, ctypes.c_double(float(self.sb_pinc_%s.get_value())), 40, int(self.sb_poff_%s.get_value()), int(self.cb_pinc_%s.get_value()), int(value=="true"))\n'%(elem[1], elem[1], elem[1], elem[1]))
+			f.write('\t\tself.cb_poff_%s.set_value(int(value=="true"))\n\n'%elem[1])
 
 		if elem[0] in ['switchReal', 'switchComplex'] :
 			f.write('\tdef cb_%s_changed(self, widget, value):\n'%elem[1])
 			f.write('\t\tvals.%s=value\n'%elem[1])
 			f.write('\t\tliboscimp_fpga.switch_send_conf("/dev/%s", 1)\n'%elem[1])
-			f.write('\t\tprint("/dev/%s", int(value==True))\n'%elem[1])
-			f.write('\t\tliboscimp_fpga.switch_send_conf("/dev/%s", int(value==True))\n'%elem[1])
-			f.write('\t\tself.cb_%s.set_value(int(value==True))\n\n'%elem[1])
+			f.write('\t\tprint("/dev/%s", int(value=="true"))\n'%elem[1])
+			f.write('\t\tliboscimp_fpga.switch_send_conf("/dev/%s", int(value=="true"))\n'%elem[1])
+			f.write('\t\tself.cb_%s.set_value(int(value=="true"))\n\n'%elem[1])
 
-	f.write('start(MyApp, address="0.0.0.0", port=80, title="%s_webserver")\n'%name)
+	if board_name == "plutosdr":
+		f.write('start(MyApp, address="0.0.0.0", port=8080, title="%s_webserver")\n'%name)
+	else:
+		f.write('start(MyApp, address="0.0.0.0", port=80, title="%s_webserver")\n'%name)
 
 	os.chmod('%s_webserver.py'%name, stat.S_IRWXU | stat.S_IRGRP |
 		 stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
