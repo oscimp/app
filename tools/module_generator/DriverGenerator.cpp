@@ -320,7 +320,7 @@ int DriverGenerator::generateMakefile(string outfilename, string installDir)
 	//	outfile << INSTALL_DIR << " ?= " << installDir << endl;
 	//	outfile << INSTALL_DIR << " := $(" << INSTALL_DIR << ")/" << rootName << endl;
 	outfile << "BASE_NAME = " << rootName << endl;
-	outfile << "include $(" << DRIVER_DIR << ")/Makefile.include" << endl;
+	outfile << "include $(" << DRIVER_DIR << ")/Makefile.inc" << endl;
 	outfile.close();
 	cout << "bye" << endl;
 	return 0;
