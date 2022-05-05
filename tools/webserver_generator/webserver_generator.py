@@ -146,7 +146,7 @@ with open('%s_webserver.py'%name, 'a') as f:
 			f.write('vals.cb_poff_%s = True\n'%elem[1])
 
 		if elem[0] in ['switchReal', 'switchComplex'] :
-			f.write('vals.%s = True\n'%elem[1])
+			f.write('vals.%s = False\n'%elem[1])
 
 	f.write('\nclass MyApp(App):\n')
 	f.write('\tdef __init__(self, *args):\n')
