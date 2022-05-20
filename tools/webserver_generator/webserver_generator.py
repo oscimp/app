@@ -535,7 +535,7 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write(f'\t\tself.sd_{elem[1]}.set_value(int(float(value)))\n\n')
 
 		if elem[0] == 'axi_to_dac':
-			f.write(f'\tdef sd_ch1_{elem[1]}_changed(self, widget, value):\n'% elem[1])
+			f.write(f'\tdef sd_ch1_{elem[1]}_changed(self, widget, value):\n')
 			f.write(f'\t\tvals.ch1_{elem[1]}=value\n')
 			f.write(f'\t\tliboscimp_fpga.axi_to_dac_conf_enable("/dev/{elem[1]}", liboscimp_fpga.BOTH_ALWAYS_HIGH)\n')
 			f.write(f'\t\tprint("/dev/{elem[1]} ch1", int(value))\n')
