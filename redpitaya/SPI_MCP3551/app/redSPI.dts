@@ -15,7 +15,7 @@
 		target-path = "/";
 		__overlay__ {
 			#address-cells = <1>;
-			#size-cells = <0>;
+			/* #size-cells = <0>; */
 			reg_mcp: vref-reg@0 {
 				compatible ="regulator-fixed";
 				reg = <1>;
