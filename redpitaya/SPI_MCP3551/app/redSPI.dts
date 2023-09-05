@@ -1,0 +1,79 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "xlnx,zynq-7000";
+	
+	fragment0 {
+		target = <&fpga_full>;
+		__overlay__ {
+			firmware-name = "redSPI_wrapper.bit.bin";
+		};
+	};
+
+	fragment1 {
+		target-path = "/";
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg_mcp: vref-reg@0 {
+				compatible ="regulator-fixed";
+				reg = <1>;
+				regulator-name = "vref-reg";
+				regulator-min-microvolt = <5000000>;
+				regulator-max-microvolt = <5000000>;
+			};
+		};
+	};
+
+	/* PMOD1, PMOD2, PMOD3 */
+	fragment2 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			num-cs = <3>;
+			is-decoded-cs = <0>;
+			pmod1: pmod1@0 {
+				compatible = "microchip,mcp3551";
+				vref-supply = <&reg_mcp>;
+				spi-max-frequency = <1000000>;
+				reg = <0>;
+			};
+
+			pmod2: pmod2@1 {
+				compatible = "microchip,mcp3551";
+				vref-supply = <&reg_mcp>;
+				spi-max-frequency = <1000000>;
+				reg = <1>;
+			};
+
+			pmod3: pmod3@2 {
+				compatible = "microchip,mcp3551";
+				vref-supply = <&reg_mcp>;
+				spi-max-frequency = <1000000>;
+				reg = <2>;
+			};
+		};
+	};
+
+	/* PMOD4 */
+	fragment3 {
+		target = <&spi1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			num-cs = <1>;
+			is-decoded-cs = <0>;
+			pmod4: pmod4@0 {
+				compatible = "microchip,mcp3551";
+				vref-supply = <&reg_mcp>;
+				spi-max-frequency = <1000000>;
+				reg = <0>;
+			};
+		};
+	};
+};
+
