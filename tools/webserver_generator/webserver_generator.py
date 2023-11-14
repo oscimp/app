@@ -167,8 +167,11 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write('vals.listView_ampl2 = "DAC2\\xa02V"\n')
 			f.write('vals.listView_extref = "Int\\xa0Clock"\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn']:
 			f.write(f'vals.{elem[1]} = 9\n')
+
+		if elem[0] == 'delayTempoReal_axi':
+			f.write(f'vals.{elem[1]} = 0\n')
 
 		if elem[0] == 'nco_counter':
 			f.write(f'vals.pinc_{elem[1]} = 0\n')
@@ -334,7 +337,7 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write('\t\tself.listView_acdc2 = gui.ListView.new_from_list(("ADC2 AC","ADC2 DC"), width=70, height=50, margin="10px")\n')
 			f.write('\t\tself.listView_range2 = gui.ListView.new_from_list(("ADC2\\xa01/1","ADC2\\xa01/20"), width=80, height=50, margin="10px")\n')
 			f.write('\t\tself.listView_ampl2 = gui.ListView.new_from_list(("DAC2\\xa02V","DAC2\\xa010V"), width=80, height=50, margin="10px")\n')
-			f.write(f'\t\tself.listView_extref = gui.ListView.new_from_list(("Int\\xa0Clock","Ext\\xa0Ref"), width=70, height=50, margin="10px", style={"background-color": "#FE96A0"})\n')
+			f.write('\t\tself.listView_extref = gui.ListView.new_from_list(("Int\\xa0Clock","Ext\\xa0Ref"), width=70, height=50, margin="10px", style={"background-color": "#FE96A0"})\n')
 			f.write('\t\tself.listView_acdc1.onselection(self.listView_acdc1_changed)\n')
 			f.write('\t\tself.listView_range1.onselection(self.listView_range1_changed)\n')
 			f.write('\t\tself.listView_ampl1.onselection(self.listView_ampl1_changed)\n')
@@ -364,7 +367,7 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write('\t\tself.stop_flag = False\n')
 			f.write('\t\tself.display_extref_state()\n\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn'] :
 			f.write(f'\t\tself.hbox_{elem[1]} = gui.HBox(margin="10px")\n')
 			f.write(f'\t\tself.lb_{elem[1]} = gui.Label("/dev/{elem[1]}", width="20%%", margin="10px")\n')
 			f.write(f'\t\tself.sd_{elem[1]} = gui.Slider(vals.{elem[1]}, -2**(const_size-1), 2**(const_size-1)-1, 1, width="60%%", margin="10px")\n')
@@ -377,6 +380,18 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write(f'\t\tself.hbox_{elem[1]}.append(self.sb_{elem[1]})\n')
 			f.write(f'\t\tself.w.append(self.hbox_{elem[1]})\n\n')
 
+		if elem[0] == 'delayTempoReal_axi':
+			f.write(f'\t\tself.hbox_{elem[1]} = gui.HBox(margin="10px")\n')
+			f.write(f'\t\tself.lb_{elem[1]} = gui.Label("/dev/{elem[1]}", width="20%%", margin="10px")\n')
+			f.write(f'\t\tself.sd_{elem[1]} = gui.Slider(vals.{elem[1]}, 0, 10000, 1, width="60%%", margin="10px")\n')
+			f.write(f'\t\tself.sd_{elem[1]}.set_oninput_listener(self.sd_{elem[1]}_changed)\n')
+			f.write(f'\t\tself.sb_{elem[1]} = gui.SpinBox(vals.{elem[1]}, 0, 10000, 1, width="20%%", margin="10px")\n')
+			f.write(f'\t\tself.sb_{elem[1]}.set_on_change_listener(self.sb_{elem[1]}_changed)\n')
+			f.write(f'\t\tself.sd_{elem[1]}_changed(self.sd_{elem[1]}, self.sd_{elem[1]}.get_value())\n')
+			f.write(f'\t\tself.hbox_{elem[1]}.append(self.lb_{elem[1]})\n')
+			f.write(f'\t\tself.hbox_{elem[1]}.append(self.sd_{elem[1]})\n')
+			f.write(f'\t\tself.hbox_{elem[1]}.append(self.sb_{elem[1]})\n')
+			f.write(f'\t\tself.w.append(self.hbox_{elem[1]})\n\n')
 
 		if elem[0] == 'nco_counter':
 			f.write(f'\t\tself.hbox_{elem[1]} = gui.HBox(margin="10px")\n')
@@ -693,7 +708,7 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write(f'\t\t\tprint("/dev/{elem[1]}","Int\\xa0Clock")\n')
 			f.write('\t\t\tself.listView_extref.select_by_value("Int\\xa0Clock")\n\n')
 
-		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn', 'delayTempoReal_axi'] :
+		if elem[0] in ['shifterReal_dyn', 'shifterComplex_dyn'] :
 			f.write(f'\tdef sd_{elem[1]}_changed(self, widget, value):\n')
 			f.write(f'\t\tvals.{elem[1]}=value\n')
 			f.write(f'\t\tprint("/dev/{elem[1]}", int(value))\n')
@@ -703,6 +718,18 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write(f'\t\tvals.{elem[1]}=value\n')
 			f.write(f'\t\tprint("/dev/{elem[1]}", int(value))\n')
 			f.write(f'\t\tliboscimp_fpga.shifter_set("/dev/{elem[1]}", int(value))\n')
+			f.write(f'\t\tself.sd_{elem[1]}.set_value(int(float(value)))\n\n')
+
+		if elem[0] == 'delayTempoReal_axi':
+			f.write(f'\tdef sd_{elem[1]}_changed(self, widget, value):\n')
+			f.write(f'\t\tvals.{elem[1]}=value\n')
+			f.write(f'\t\tprint("/dev/{elem[1]}", int(value))\n')
+			f.write(f'\t\tliboscimp_fpga.delayTempo_set("/dev/{elem[1]}", int(value))\n')
+			f.write(f'\t\tself.sb_{elem[1]}.set_value(int(value))\n\n')
+			f.write(f'\tdef sb_{elem[1]}_changed(self, widget, value):\n')
+			f.write(f'\t\tvals.{elem[1]}=value\n')
+			f.write(f'\t\tprint("/dev/{elem[1]}", int(value))\n')
+			f.write(f'\t\tliboscimp_fpga.delayTempo_set("/dev/{elem[1]}", int(value))\n')
 			f.write(f'\t\tself.sd_{elem[1]}.set_value(int(float(value)))\n\n')
 
 		if elem[0] == 'nco_counter':
