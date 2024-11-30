@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="dataReal2ram_pingpong" version="1.0">
+	<ips>
+		<ip name ="ram_to_dataReal" >
+			<instance name="axiToRam" id="0"
+				base_addr="0x43C00000" addr_size="0xffff" />
+		</ip>
+		<ip name ="dataReal_to_ram" >
+			<instance name="data2ram" id="0"
+				base_addr="0x43C10000" addr_size="0xffff" />
+		</ip>
+		<ip name ="dataReal_to_ram_pingpong" >
+			<instance name="data2ram_pp" id="0"
+				base_addr="0x43C20000" addr_size="0xffff" />
+		</ip>
+	</ips>
+</project>
