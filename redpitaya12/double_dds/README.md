@@ -29,4 +29,5 @@ REMI web server:
 
 Experimental setup:
 
+<img src="redpit12.jpg">
 
