@@ -7,6 +7,7 @@ import os, stat
 board_driver_array = []
 xmldoc = minidom.parse(sys.argv[1])
 name = sys.argv[1].split('/')[-1].split('.')[0]
+linuxkernel=6  ## JMF: make sure to automate somehow... Jun. 13 2025
 
 driver_list = xmldoc.getElementsByTagName('ip')
 
@@ -48,15 +49,25 @@ with open(f'{name}_webserver.py', 'a') as f:
 			f.write('# Initiate the controller input and output switches\n')
 			f.write('liboscimp_fpga.RP_12_initController()\n\n')
 
-			f.write('# Power on ADC and DAC\n')
-			f.write('os.system("echo 908 > /sys/class/gpio/export")\n')
-			f.write('os.system("echo out > /sys/class/gpio/gpio908/direction")\n')
-			f.write('os.system("echo 1 > /sys/class/gpio/gpio908/value")\n')
-			f.write('os.system("echo 908 > /sys/class/gpio/unexport")\n')
-			f.write('os.system("echo 909 > /sys/class/gpio/export")\n')
-			f.write('os.system("echo out > /sys/class/gpio/gpio909/direction")\n')
-			f.write('os.system("echo 1 > /sys/class/gpio/gpio909/value")\n')
-			f.write('os.system("echo 909 > /sys/class/gpio/unexport")\n\n')
+ 			f.write('# Power on ADC and DAC\n')
+            if (linuxkernel<6):
+			    f.write('os.system("echo 908 > /sys/class/gpio/export")\n')
+			    f.write('os.system("echo out > /sys/class/gpio/gpio908/direction")\n')
+			    f.write('os.system("echo 1 > /sys/class/gpio/gpio908/value")\n')
+			    f.write('os.system("echo 908 > /sys/class/gpio/unexport")\n')
+			    f.write('os.system("echo 909 > /sys/class/gpio/export")\n')
+			    f.write('os.system("echo out > /sys/class/gpio/gpio909/direction")\n')
+			    f.write('os.system("echo 1 > /sys/class/gpio/gpio909/value")\n')
+			    f.write('os.system("echo 909 > /sys/class/gpio/unexport")\n\n')
+            else:
+			    f.write('os.system("echo 514 > /sys/class/gpio/export")\n')
+			    f.write('os.system("echo out > /sys/class/gpio/gpio514/direction")\n')
+			    f.write('os.system("echo 1 > /sys/class/gpio/gpio514/value")\n')
+			    f.write('os.system("echo 514 > /sys/class/gpio/unexport")\n')
+			    f.write('os.system("echo 515 > /sys/class/gpio/export")\n')
+			    f.write('os.system("echo out > /sys/class/gpio/gpio515/direction")\n')
+			    f.write('os.system("echo 1 > /sys/class/gpio/gpio515/value")\n')
+			    f.write('os.system("echo 515 > /sys/class/gpio/unexport")\n\n')
 
 			f.write('# Configure the ADCs \n')
 			f.write(f'liboscimp_fpga.redpitaya_converters_12_spi_conf("/dev/{elem[1]}",1,0xff,0x00,1)\n')
