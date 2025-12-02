@@ -30,7 +30,7 @@ bitstream to load, the list of modules to
 
 For debian users:
 ```bash
-# apt-get install libtinyxml2-6a libtinyxml2-dev
+# apt-get install libtinyxml2-11 libtinyxml2-dev
 ```
 or equivalent (see ```apt-cache search```, or your distribution *package
 manager* for correct package name and version).
